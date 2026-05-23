@@ -1,0 +1,58 @@
+<h1 mat-dialog-title class="map-dialog-title">Google Map</h1>
+
+<div mat-dialog-content class="map-dialog-content">
+  <div class="row m-0 p-0">
+    <div class="col-12 p-0">
+      <agm-map #map [latitude]="location.lat" [longitude]="location.lng" [zoom]="location.zoom" (mapReady)="onMapReady($event)">
+        <ng-container *ngIf="!IsDashboard">
+          <agm-marker [latitude]="location.marker.lat" [longitude]="location.marker.lng"> </agm-marker>
+        </ng-container>
+
+        <ng-container *ngIf="IsDashboard">
+          <agm-marker *ngFor="let m of markers" [latitude]="m.lat" [longitude]="m.lng" [iconUrl]="{ url: m.Icon, scaledSize: SizeScale }" (mouseOver)="OnMouseOver(infoWindow)" (mouseOut)="OnMouseOut(infoWindow)">
+            <agm-info-window #infoWindow>
+              <div class="map-iw" [class.iw-siren]="m.Type === 'SIRENLOCATION'">
+                <span class="iw-type-badge">
+                  {{ m.Type === 'SIRENLOCATION' ? 'Emergency Siren' : m.Type === 'READLOCATION' ? 'Reading Station' : m.Type }}
+                </span>
+                <div class="iw-name">{{ m.Name }}</div>
+
+                <div class="iw-stats" *ngIf="m.Type !== 'SIRENLOCATION'">
+                  <div class="iw-stat iw-stat-red">
+                    <span class="iw-stat-label">Red</span>
+                    <span class="iw-stat-value">{{ m.RED_MIN }}</span>
+                  </div>
+                  <div class="iw-stat iw-stat-yellow">
+                    <span class="iw-stat-label">Yellow</span>
+                    <span class="iw-stat-value">{{ m.YELLOW_MIN }}</span>
+                  </div>
+                  <div class="iw-stat iw-stat-white">
+                    <span class="iw-stat-label">White</span>
+                    <span class="iw-stat-value">{{ m.WHITE_MIN }}</span>
+                  </div>
+                </div>
+
+                <div class="iw-meta-note" *ngIf="m.Type === 'SIRENLOCATION'">
+                  <i class="fas fa-bullhorn"></i>
+                  <span>Public alert siren point</span>
+                </div>
+              </div>
+            </agm-info-window>
+          </agm-marker>
+        </ng-container>
+      </agm-map>
+    </div>
+
+    <div class="col-12 mt-2 mb-2" *ngIf="!IsDashboard">
+      <div class="--input-group">
+        <textarea InputField autocomplete="off" rows="2" [(ngModel)]="address"></textarea>
+        <label Asterisk>Address</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button class="--btn-outlined-gray" matRipple [mat-dialog-close]="false">Close</button>
+  <button class="--btn-filled-primary ms-2" matRipple (click)="onClose()" *ngIf="!IsDashboard">Submit</button>
+</div>

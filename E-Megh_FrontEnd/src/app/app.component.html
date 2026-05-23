@@ -1,0 +1,158 @@
+<ng-container *ngIf="_GlobalService.AdminLoggedIn">
+  <!-- <div class="weather-marquee text-dark py-2 border-bottom" *ngIf="WeatherData">
+    <div class="marquee-content d-flex align-items-center">
+      <div class="mx-4"><i class="fas fa-map-marker-alt me-2"></i> {{ WeatherData.name }}, {{ WeatherData.sys?.country }}</div>
+      <div class="mx-4"><i class="fas fa-thermometer-half me-2"></i> {{ WeatherData.temp_celcius }}°C (Feels like {{ WeatherData.temp_feels_like }}°C)</div>
+      <div class="mx-4"><i class="fas fa-cloud me-2"></i> {{ WeatherData.weather[0]?.description | titlecase }}</div>
+      <div class="mx-4"><i class="fas fa-tint me-2"></i> Humidity: {{ WeatherData.main?.humidity }}%</div>
+      <div class="mx-4"><i class="fas fa-wind me-2"></i> Wind: {{ WeatherData.wind?.speed }} m/s</div>
+    
+      <div class="mx-4"><i class="fas fa-sun me-2"></i> Sunset Time: {{ WeatherData.sunset_time }}</div>
+    </div>
+  </div> -->
+  <mat-drawer-container *ngIf="_GlobalService.IsSidebarOpen" class="example-container" autosize>
+    <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="!HideCommonView" [autoFocus]="false"
+      class="--side-nav-menu-container {{ !isExpandedMenu ? 'is-not-expanded' : '' }}" position="start">
+      <div class="d-flex flex-column justify-content-between h-100">
+        <!-- Logo and Top Menu Section -->
+        <div class="--Menues">
+          <div class="--menu-icon-container">
+            <div class="d-flex align-items-center" routerLink="/dashboard">
+              <img src="./assets/ews_big_logo.png" height="50px" width="145px" alt="" loading="lazy"
+                class="--cursor-pointer" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Menu Items -->
+        <div class="col-12 custom flex-column align-items-center">
+          <ng-container *ngIf="masterMenuList.length > 0">
+            <ng-container *ngFor="let item of masterMenuList">
+              <ng-container [ngTemplateOutlet]="NavigationItems" [ngTemplateOutletContext]="{ item: item }">
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <!-- Mobile Logout Button -->
+        <div class="d-md-none px-4 mb-3">
+          <button mat-button class="w-100 text-start" (click)="OnLogOut()">
+            <mat-icon>logout</mat-icon>
+            <span *ngIf="isExpandedMenu" class="ms-2">Logout</span>
+          </button>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="px-4 d-flex align-items-center">
+          <div class="--width-100 d-flex align-items-center --cursor-pointer mb-2">
+            <ng-container *ngIf="isExpandedMenu">
+              <span class="--text-dark-gray --font-size-12">
+                <b>PROJECT BY :</b>
+                <img src="./assets/responscity-logo.png" alt="" height="30" />
+              </span>
+            </ng-container>
+            <ng-container *ngIf="!isExpandedMenu">
+              <img src="./assets/1641660710781.png" alt="" height="30" />
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </mat-drawer>
+
+    <mat-drawer-content>
+      <div class="--main-container position-relative">
+        <div class="--header-container d-flex justify-content-between align-items-center"
+          [ngClass]="hideCommonView ? 'd-none' : ''">
+          <div class="d-flex align-items-center w-100">
+            <ng-container *ngIf="HideCommonView" [ngClass]="HideCommonView ? 'float-start' : ''">
+              <mat-icon (click)="drawer.toggle(); _GlobalService.IsSidebarOpen.next(isExpandedMenu)"
+                class="me-2">menu</mat-icon>
+            </ng-container>
+            <div class="mobile-route-path d-md-none">
+              {{ getCurrentRoute() }}
+            </div>
+          </div>
+
+          <div class="--user-badge d-flex align-items-center ms-auto" style="margin-right: 20px">
+            <div id="weatherWidget">
+              <div class="weatherHeader">
+                <i *ngIf="WeatherData.isDay" class="fas fa-sun sun"></i>
+                <i *ngIf="!WeatherData.isDay" class="fas fa-moon moon"></i>
+                <i *ngIf="WeatherData.weather[0].main === 'Rain'" class="fas fa-cloud-rain cloud"></i>
+                <i *ngIf="WeatherData.weather[0].main === 'Clear'" class="fas fa-cloud cloud"></i>
+                <i *ngIf="WeatherData.weather[0].main === 'Clouds'" class="fas fa-cloud-rain cloud"></i>
+              </div>
+
+              <div class="weatherTemp">
+                <span class="currentTemp">{{ WeatherData.temp_celcius }}°C</span>
+                <span class="ms-2 --text-white" style="font-size: 20px; font-weight: bold">, Valsad</span>
+              </div>
+            </div>
+
+            <div class="--avatar d-none d-md-flex">
+              <mat-icon class="--avatar-icon">tag_faces</mat-icon>
+            </div>
+            <div class="--user-info d-none d-md-flex flex-column" [matMenuTriggerFor]="menu">
+              <div class="--greet">Hi,</div>
+              <p class="--username">{{ userInfo.username }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="position: absolute; top: 80px" class="w-100" *ngIf="showSpinner">
+          <mat-progress-bar class="example-margin" color="primary" mode="indeterminate"></mat-progress-bar>
+        </div>
+
+        <!-- Main Content -->
+        <!-- <div class="--navigation-container">
+        <router-outlet></router-outlet>
+      </div> -->
+        <div class="--navigation-container" [ngClass]="drawer.opened ? 'blur-content' : ''">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </mat-drawer-content>
+  </mat-drawer-container>
+
+  <mat-menu #menu="matMenu" class="custom-menu">
+    <button mat-menu-item (click)="OnLogOut()">
+      <mat-icon class="menu-icon">logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</ng-container>
+
+<ng-container *ngIf="!_GlobalService.AdminLoggedIn">
+  <router-outlet></router-outlet>
+</ng-container>
+
+<!-- Menu Item Template -->
+<ng-template #NavigationItems let-NavItem="item">
+  <div class="w-100 d-flex align-items-center">
+    <div
+      class="w-100 d-flex justify-content-between py-2 mt-2 px-3 --border-radius-5 --text-primary --cursor-pointer menu-item"
+      [class.active]="isActiveRoute(NavItem.RouterPath)" (mouseenter)="onMouseEnter($event)"
+      (mouseleave)="onMouseLeave($event)" (click)="onClickMenuItem(NavItem)">
+      <div class="d-flex align-items-center">
+        <mat-icon [class.active-icon]="isActiveRoute(NavItem.RouterPath)">{{ NavItem?.MenuCaption | lowercase
+          }}</mat-icon>
+        <span class="px-3">
+          <b [routerLink]="NavItem?.RouterPath" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">{{
+            NavItem?.MenuName }}</b>
+        </span>
+      </div>
+      <ng-container *ngIf="NavItem?.ChildList?.length > 0">
+        <mat-icon [@indicatorRotate]="NavItem?.IsExpanded ? 'expanded' : 'collapsed'"
+          [class.active-icon]="isActiveRoute(NavItem.RouterPath)">expand_more</mat-icon>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="NavItem?.ChildList?.length > 0 && NavItem?.IsExpanded">
+    <div class="ms-3">
+      <ng-container *ngFor="let child of NavItem?.ChildList">
+        <ng-container [ngTemplateOutlet]="NavigationItems" [ngTemplateOutletContext]="{ item: child }"></ng-container>
+      </ng-container>
+    </div>
+  </ng-container>
+</ng-template>

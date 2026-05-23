@@ -1,0 +1,111 @@
+.mat-stepper-vertical {
+  margin: -15px;
+  padding: 0px;
+  
+  // Make stepper scrollable on mobile
+  @media (max-width: 767px) {
+    overflow-x: hidden;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+// Make dialog content fit mobile screens
+.mat-dialog-content {
+  @media (max-width: 767px) {
+    padding: 8px !important;
+    margin: 0 -16px !important;
+    max-height: 60vh !important;
+    overflow-y: auto;
+  }
+}
+
+.permission-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  // gap: 12px;
+  margin-bottom: 16px;
+  justify-content: flex-start;
+  // padding: 0 8px;
+  
+  @media (max-width: 767px) {
+    // gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .permission-item {
+    white-space: nowrap;
+    
+    // Make checkboxes full width on mobile
+    @media (max-width: 767px) {
+      flex: 1 1 100%;
+      margin-bottom: 4px;
+      
+      .mat-checkbox {
+        width: 100%;
+        font-size: 14px;
+        
+        .mat-checkbox-layout {
+          width: 100%;
+          white-space: normal;
+          
+          .mat-checkbox-label {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            line-height: 1.2;
+          }
+        }
+      }
+    }
+    
+    // Two columns on small tablets
+    @media (min-width: 600px) and (max-width: 959px) {
+      flex: 1 1 calc(50% - 8px);
+      
+      .mat-checkbox {
+        font-size: 14px;
+      }
+    }
+  }
+  
+  // Desktop view - align checkboxes in a row
+  @media (min-width: 960px) {
+    padding-left: 214px;
+    // flex-wrap: nowrap;
+    
+    .permission-item {
+      flex: 0 0 auto;
+      margin-right: 16px;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// Adjust the permission list container
+:host ::ng-deep .mat-step-content {
+  @media (max-width: 767px) {
+    margin: 0 -16px;
+    padding: 0 8px;
+    width: 100vw;
+  }
+}
+
+// Make the dialog responsive
+.mat-dialog-container {
+  @media (max-width: 767px) {
+    padding: 16px !important;
+    max-width: 50vw !important;
+    width: 100% !important;
+    height: 100%;
+    max-height: 100vh;
+    
+    .mat-dialog-content {
+      margin: 0 -16px !important;
+      padding: 16px !important;
+    }
+  }
+}

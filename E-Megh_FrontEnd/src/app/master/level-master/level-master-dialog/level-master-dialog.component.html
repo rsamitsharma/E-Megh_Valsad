@@ -1,0 +1,73 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Level Master {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <!-- <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="LevelID" [disabled]="true" />
+        <label Asterisk>Gateway MasterID</label>
+      </div> -->
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="LevelName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Name</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField type="number" [(ngModel)]="LevelHeightFrom" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Level Height From (mtr) </label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField type="number" [(ngModel)]="LevelHeightTo" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Level Height To (mtr)</label>
+      </div>
+    </div>
+
+    <div Class="  col-12 mb-2">
+      <input-select inputLabel="Select Reading Location" [(selectedValue)]="ReadingLocationID" [isRequired]="true" [masterList]="ReadingLocationList"> </input-select>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="Remarks" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Remarks</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <input-select [isChips]="true" inputLabel="Select Contact" [(selectedValue)]="ContactID" [isRequired]="true" [isSearch]="false" [masterList]="ContactList"> </input-select>
+    </div>
+    <div class="col-12 mb-2">
+      <section class="form-group example-section">
+        <mat-checkbox name="IsSMS" [(ngModel)]="IsSMS" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">Enable SMS Alerts</mat-checkbox>
+      </section>
+    </div>
+
+    <div class="col-12 mb-3" *ngIf="IsSMS">
+      <div class="--input-group">
+        <input InputField type="number" [(ngModel)]="SMSPeriod" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" min="1" max="1440" placeholder="Enter SMS alert period in minutes" style="width: 100%" />
+        <label>SMS Alert Period (minutes) <span class="text-danger">*</span></label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

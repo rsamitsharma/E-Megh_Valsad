@@ -1,0 +1,138 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Reading Location Master {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <!-- <div class="--input-group">
+        <input InputField Asterisk autocomplete="off" type="text" [(ngModel)]="ReadingLocationID" readonly />
+        <label Asterisk>Reading LocationID</label>
+      </div> -->
+    </div>
+
+    <!-- <div class="col-12 mb-2">
+      <input-select inputLabel="Select District" placeholder="---Select District---" [(selectedValue)]="DisctrictID" [isRequired]="true" [isSearch]="false" [masterList]="DistrictList"> </input-select>
+    </div> -->
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="ReadingLocationName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Reading Location Name</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="RiverName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>River Name</label>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="GatewayIMEI" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>GatewayIMEI</label>
+      </div>
+    </div> -->
+
+    <div class="col-12 mb-2">
+      <mat-icon class="float-end mt-1" (click)="OpenMap()" [ngStyle]="{ 'pointer-events': !_GlobalService.rightsControl.canEdit && IsEdit ? 'none' : 'click' }"> place </mat-icon>
+      <div class="--input-group mt-5">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="Location" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Location</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="WarningLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>MaxWaterLevel (mtr)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="Longitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Longitude</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="Latitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Latitude</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="Altitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Altitude</label>
+      </div>
+    </div>
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="DangerHeight" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>DangerWaterLevel (mtr)</label>
+      </div>
+    </div>
+
+    <!-- <div class="col-lg-6 col-md-6 col-12 mb-2" *ngIf="_GlobalService.AdminLoggedIn">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="RangeHeightMin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>RangeHeightMin</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2" *ngIf="_GlobalService.AdminLoggedIn">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="RangeHeightMax" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>RangeHeightMax</label>
+      </div>
+    </div> -->
+
+    <!-- <div class="col-lg-6 col-md-6 col-12 mb-2" *ngIf="_GlobalService.AdminLoggedIn">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="WarningLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>WarningLevel</label>
+      </div>
+    </div> -->
+
+    <!-- <div class="col-lg-6 col-md-6 col-12 mb-2" *ngIf="_GlobalService.AdminLoggedIn">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="DangerLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>DangerLevel</label>
+      </div>
+    </div> -->
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="MaxTimeDuration" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>MaxTimeDuration</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-3">
+      <div class="--input-group">
+        <textarea InputField autocomplete="off" type="text" [(ngModel)]="Remarks" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit"></textarea>
+        <label Asterisk>Remarks</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <mat-checkbox name="IsEmailActive" [(ngModel)]="IsManualEntry" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsManual Entry </mat-checkbox>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

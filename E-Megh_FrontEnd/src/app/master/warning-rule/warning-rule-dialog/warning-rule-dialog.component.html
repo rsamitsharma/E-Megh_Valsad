@@ -1,0 +1,88 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Warning Rule {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <!-- <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="WarningRuleMasterID" [disabled]="true" />
+        <label Asterisk>Warning RuleID</label>
+      </div> -->
+    </div>
+
+    <div class="col-12 mb-2">
+      <input-select inputLabel="Select Location" (onSelectionChange)="GetVillage()" placeholder="---Select Location---" [(selectedValue)]="ReadingLocationID" [isRequired]="true" [isSearch]="false" [masterList]="LocationList"> </input-select>
+    </div>
+
+    <div class="col-12 mb-2">
+      <input-select inputLabel="Select Village" placeholder="---Select Village---" [(selectedValue)]="VillageID" [isRequired]="true" [isSearch]="false" [masterList]="VillageList" (onSelectionChange)="GetWarningRuleData()"> </input-select>
+    </div>
+
+    <!-- <div class="  col-12 mb-2">
+      <input-select inputLabel="Select DangerCategory" placeholder="---Select DangerCategory---" [(selectedValue)]="DangerCategoryID" [isRequired]="true" [isSearch]="false" [masterList]="DangercategoryList" (onSelectionChange)="GetWarningRuleData()"> </input-select>
+    </div> -->
+
+    <ng-container *ngIf="!IsEdit">
+      <div class="col-12 --table-scroll-x mt-3" *ngIf="visible">
+        <h1 class="--heading-josefin mb-3">Warning Rules</h1>
+        <table class="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th scope="col" class="--width-10">Color</th>
+              <th scope="col" class="--width-15">Threat Level</th>
+              <th scope="col" class="--width-30">From Lower Water Level (mtr)</th>
+              <th scope="col" class="--width-30">To Higher Water Level (mtr)</th>
+              <th scope="col" class="--width-5">SMS Send</th>
+              <th scope="col" class="--width-5">Email Send</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of WarningRuleData[0]">
+              <td class="--width-10" [ngStyle]="{ 'background-color': data.ColorCode }"></td>
+              <td class="--width-15">{{ data.DangerCategoryName }}</td>
+              <td class="--width-30">
+                <input autocomplete="off" type="number" [(ngModel)]="data.lowerWaterLevel" />
+              </td>
+              <td class="--width-30">
+                <input autocomplete="off" type="number" [(ngModel)]="data.higherWaterLevel" />
+              </td>
+              <td><mat-checkbox [checked]="data.autoSMS" [(ngModel)]="data.autoSMS" style="zoom: 1.2" type="checkbox"></mat-checkbox></td>
+              <td><mat-checkbox [checked]="data.autoEmail" [(ngModel)]="data.autoEmail" style="zoom: 1.2" type="checkbox"></mat-checkbox></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="IsEdit">
+      <div class="col-6 mb-2" *ngIf="IsEdit">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="number" [(ngModel)]="WaterLowerLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>Water Lower Level (mtr)</label>
+        </div>
+      </div>
+      <div class="col-6 mb-2" *ngIf="IsEdit">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="number" [(ngModel)]="WaterHigherLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>Water Higher Level (mtr)</label>
+        </div>
+      </div>
+      <div class="col-12 mb-2" *ngIf="IsEdit">
+        <mat-checkbox [(ngModel)]="AutoSMS" class="example-margin me-5" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit"> Auto SMS </mat-checkbox>
+        <mat-checkbox [(ngModel)]="AutoEMail" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit"> Auto Email </mat-checkbox>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" mat-dialog-close #CloseDialog>Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

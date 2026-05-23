@@ -1,0 +1,139 @@
+@import "variables.scss";
+
+.--mat-input-font-size {
+  font-size: 13px;
+}
+
+th.mat-header-cell {
+  color: $--color-white !important;
+  font-size: 13px;
+  font-family: $--font-family-primary;
+  background-color: $--color-primary !important;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+td.mat-cell {
+  color: $--color-dark;
+  background-color: $--color-white;
+}
+
+tr.mat-footer-row {
+  background-color: $--color-light !important;
+}
+
+tr.example-detail-row {
+  height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row td {
+  border-bottom-width: 0;
+}
+
+.example-element-detail {
+  overflow: hidden;
+}
+
+:host ::ng-deep {
+  .mat-radio-container {
+    transform: scale(0.8);
+  }
+
+  // Mat-select zindex
+  .cdk-overlay-connected-position-bounding-box {
+    z-index: 9999 !important;
+  }
+
+  .--tab-container {
+    .mat-tab-link {
+      height: 35px;
+    }
+
+    .mat-tab-link,
+    .mat-tab-label,
+    .mat-tab-label-active {
+      min-width: 97px !important;
+    }
+
+    a.mat-tab-link:hover {
+      color: $--color-primary !important;
+    }
+  }
+
+  .mat-progress-bar-fill::after {
+    background-color: $--color-primary;
+  }
+
+  .mat-progress-bar-buffer {
+    background: $--color-light;
+  }
+
+  .mat-ink-bar {
+    background-color: $--color-primary !important;
+  }
+
+  .mat-tab-label-active {
+    color: $--color-primary;
+    font-weight: bold;
+  }
+
+  .--inner-mat-tab .mat-tab-label {
+    height: 35px;
+  }
+
+  td.mat-cell,
+  th.mat-header-cell {
+    padding: 0px 10px;
+    font-size: 12px;
+  }
+
+  th.mat-header-cell:first-of-type,
+  td.mat-cell:first-of-type,
+  td.mat-footer-cell:first-of-type {
+    padding-left: 20px;
+  }
+
+  th.mat-header-cell:last-of-type,
+  td.mat-cell:last-of-type,
+  td.mat-footer-cell:last-of-type {
+    padding-right: 20px;
+  }
+}
+
+// :host {
+//   ::ng-deep {
+//     .mat-cell {
+//       &td{
+//         font-size: 12px;
+//       }
+//     }
+//   }
+// }
+
+td,
+th {
+  text-align: left !important;
+  vertical-align: middle !important;
+}
+
+.mat-sort-header-container {
+  justify-content: left !important;
+}
+
+// Mat-select zindex
+
+::ng-deep .cdk-overlay-connected-position-bounding-box {
+  z-index: 9999 !important;
+}
+
+// Checkbox

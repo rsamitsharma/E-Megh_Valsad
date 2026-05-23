@@ -1,0 +1,35 @@
+<div class="prediction-container">
+  <div class="header-section">
+    <div class="title-container">
+      <h1 class="main-title">Golden Bridge Affected Village Prediction</h1>
+    </div>
+
+    <!-- <div class="controls-container">
+      <button class="refresh-btn" (click)="refreshData()" [disabled]="isLoading">
+        <i class="icon-refresh" [class.spinning]="isLoading"></i>
+        Refresh Data
+      </button>
+    </div> -->
+  </div>
+
+  <!-- Chart Section -->
+  <div class="chart-section">
+    <div class="d-block d-md-none text-center mb-3"
+      style="background-color: #e7f5ff; color: #0056b3; padding: 8px; border-radius: 4px; font-size: 0.9rem"><i
+        class="fas fa-rotate-right me-1"></i> For a better chart view, rotate your phone to landscape mode</div>
+    <div class="chart-container" *ngIf="chartData.length > 0 && !isLoading; else loading">
+      <div class="chart-wrapper">
+        <google-chart [type]="type" [data]="chartData" [columns]="columnNames" [options]="chartOptions"
+          [height]="chartHeight" [width]="chartWidth" class="responsive-chart"> </google-chart>
+      </div>
+    </div>
+
+    <ng-template #loading>
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading prediction data...</p>
+        <div class="loading-details">Please wait while we fetch the latest water level predictions</div>
+      </div>
+    </ng-template>
+  </div>
+</div>

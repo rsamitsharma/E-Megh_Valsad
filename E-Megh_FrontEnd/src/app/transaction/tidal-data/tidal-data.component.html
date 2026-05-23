@@ -1,0 +1,104 @@
+<div class="row m-0 p-0">
+  <div class="col-12 m-4 d-flex justify-content-between">
+    <h3 class="--heading-josefin mt-2"><b>Tidal Data</b></h3>
+    <div class="d-flex">
+      <input type="file" class="file-input" #fileInput (change)="onFileChange($event)" accept=".xlsx, .xls" />
+      <button class="--btn-outlined-green" (click)="exportToExcel()">Download Excel</button>
+    </div>
+    <table mat-table [dataSource]="exceldataSource" class="mat-elevation-z8 table table-striped"
+      *ngIf="exceldataSource.data?.length">
+      <!-- Define columns -->
+      <ng-container *ngFor="let column of exceldisplayedColumns" [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+      </ng-container>
+
+      <!-- Header row -->
+      <tr mat-header-row *matHeaderRowDef="exceldisplayedColumns"></tr>
+      <!-- Data rows -->
+      <tr mat-row *matRowDef="let row; columns: exceldisplayedColumns"></tr>
+    </table>
+  </div>
+  <hr />
+
+  <!-- <div class="col-12 d-flex justify-content-between mt-4">
+    <button class="--btn-filled-yellow me-2" matRipple (click)="onUploadExcel()">Upload Excel</button>
+    <button *ngIf="excelDataSource.data?.length" class="--btn-outlined-red" (click)="onRemoveExcelData()">Remove All</button>
+</div> -->
+
+  <!-- <div class="col-12 mt-2 mb-3" *ngIf="excelDataSource.data?.length">
+  <div class="mat-elevation-z8">
+    <div class="--table-container">
+      <table mat-table matSort [dataSource]="excelDataSource">
+        <ng-container *ngFor="let item of defaultTableColumns;">
+          <ng-container [matColumnDef]="item.columnKey">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header [class]="item.className">{{ item.headingName }}</th>
+            <td mat-cell *matCellDef="let row">
+              <dynamic-mat-columns  [row]="row" [item]="item"></dynamic-mat-columns>
+            </td>
+          </ng-container>
+        </ng-container> -->
+
+  <!-- <ng-container matColumnDef="Action" stickyEnd>
+          <th mat-header-cell *matHeaderCellDef class="--width-5"></th>
+          <td mat-cell *matCellDef="let row; let i = index" class="--width-5"> -->
+  <!-- Example of commented-out code -->
+  <!-- <mat-icon [ngClass]="row.IsActive ? '--text-red' : '--text-green'" (click)="onRemove(i)">
+              {{ row.IsActive ? "delete" : "settings_backup_restore" }}
+            </mat-icon> -->
+  <!-- </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="exceldisplayedColumns; sticky: true"></tr>
+        <tr mat-row [ngClass]="{ '--bg-light-red': !row.IsActive }" *matRowDef="let row; columns: exceldisplayedColumns"></tr>
+      </table>
+    </div>
+  </div>
+</div> -->
+  <div class="col-12">
+    <div class="col-lg-3 mb-3">
+      <input-select inputLabel="Reading Location" [(selectedValue)]="ReadingLocationID"
+        [masterList]="ReadingLocationList" (onSelectionChange)="GetTidalData()"> </input-select>
+    </div>
+
+    <div class="col-lg-9 col-12 mb-3 d-flex justify-content-end">
+      <div class="--input-group --width-50">
+        <input InputField autocomplete="off" type="text" (keyup)="applyFilter($event)" />
+        <label Asterisk>Search</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 p-3 w-100">
+    <div class="mat-elevation-z8">
+      <div class="--table-container">
+        <table mat-table [dataSource]="dataSource" class="table table-striped" matSort>
+          <ng-container [matColumnDef]="item.columnKey" *ngFor="let item of defaultTableColumns">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.headingName }}</th>
+            <td mat-cell *matCellDef="let row">
+              <dynamic-mat-columns *ngIf="row" [row]="row" [item]="item"></dynamic-mat-columns>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Action">
+            <th mat-header-cell *matHeaderCellDef>
+              <mat-icon class="NewBtnMatAdd" *ngIf="_GlobalService.rightsControl.canAdd" data-toggle="modal"
+                data-backdrop="static" data-keyboard="false" data-target="#ListData" matTooltip="Add"
+                matTooltipClass="matTooltip" (click)="openDialog()">add </mat-icon>
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <mat-icon class="BtnMatEditGreen"
+                *ngIf="_GlobalService.rightsControl.canView || _GlobalService.rightsControl.canEdit" data-toggle="modal"
+                data-backdrop="static" data-keyboard="false" data-target="#ListData" matTooltip="View or Edit"
+                matTooltipClass="matTooltip" (click)="openDialog(row.TID)">visibility </mat-icon>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[10, 25, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>

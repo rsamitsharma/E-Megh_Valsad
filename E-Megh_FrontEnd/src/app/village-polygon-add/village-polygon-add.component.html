@@ -1,0 +1,27 @@
+<!-- <div class="container"> -->
+<h1 align="center">Polygon Geofencing with Google Maps</h1>
+
+<div class="controls">
+  <div class="left-controls">
+    <label for="villageSelect">Select Village:</label>
+    <select id="villageSelect" (change)="onVillageChange($event)">
+      <option value="" disabled selected>Select a village</option>
+      <option *ngFor="let village of villages" [value]="village.VID">
+        {{ village.VillageName }}
+      </option>
+    </select>
+    <button (click)="onDrawTilesClick()">Draw Tiles</button>
+  </div>
+
+  <div class="right-controls">
+    <input type="text" [(ngModel)]="enteredElevation" placeholder="Enter Elevation Value" class="custom-input" />
+    <button (click)="onSubmitElevation()">Submit</button>
+  </div>
+</div>
+
+<div class="map-container">
+  <!-- <google-map height="750px" width="100%" [center]="center" [zoom]="zoom" [options]="mapOptions" (mapClick)="onMapClick($event)"> </google-map> -->
+
+  <google-map height="95%" width="100%" [center]="center" [zoom]="zoom" [options]="{ disableDefaultUI: true, clickableIcons: false, disableDoubleClickZoom: true }" (mapClick)="onMapClick($event)"> </google-map>
+</div>
+<!-- </div> -->

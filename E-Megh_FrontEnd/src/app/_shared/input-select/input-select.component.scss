@@ -1,0 +1,43 @@
+@import "variables.scss";
+
+.--chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $--color-light-gray;
+  min-width: 75px;
+  font-size: 12px;
+  border-radius: 5px;
+  margin-top: 3px;
+  margin-left: 3px;
+  padding: 3px 5px 1px 5px;
+}
+
+.--input-group {
+  position: relative;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.input-item.mat-option.mat-active,
+.input-item.mat-option:hover:not(.mat-option-disabled),
+.input-item.mat-option:focus:not(.mat-option-disabled),
+.chip-input-item.mat-option.mat-active,
+.chip-input-item.mat-option:hover:not(.mat-option-disabled),
+.chip-input-item.mat-option:focus:not(.mat-option-disabled) {
+  background: $--color-light-gray !important;
+}
+
+.input-item.mat-option.mat-selected {
+  color: $--color-primary !important;
+}
+
+.--arrow-icon {
+  position: absolute;
+  top: 8px;
+  right: 5px;
+}

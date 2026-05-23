@@ -1,0 +1,71 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Sim Master {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="SIMID" [disabled]="true" />
+        <label Asterisk>SimID</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="CompanyName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Company Name</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" OnlyNumbers min="0" onkeydown="if(this.value.length >= 10) return false;" [(ngModel)]="PhoneNo" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Phone no.</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="TariffPlan" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>TariffPlan</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="BillCycle" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Bill Cycle</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="SIMNo" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Sim no.</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="date" [(ngModel)]="LastDate" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>LastDate</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2 mt-2 ms-2">
+      <mat-checkbox name="IsSensor" [(ngModel)]="isPrepaid" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsPrepaid </mat-checkbox>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="true">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

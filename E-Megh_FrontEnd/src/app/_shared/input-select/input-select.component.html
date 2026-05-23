@@ -1,0 +1,41 @@
+<div class="--input-select-group {{ readonly ? 'disabled' : '' }}">
+  <div class="--input-group">
+    <ng-container *ngIf="!isChips">
+      <input #NonChipInput InputField (blur)="onBlur()" (focus)="onFocus()" type="text" [matAutocomplete]="auto" (keyup)="_filter($event)" [value]="getTitle(this.selectedValue)" />
+      <label for="{{ randomNumber }}" (click)="onClickLabel()">{{ inputLabel }}<span *ngIf="isRequired" Asterisk></span></label>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="getTitle.bind(this)" (optionSelected)="onSelect($event)">
+        <mat-option *ngFor="let option of masterList | FilterList : 'IsFound' : '1'" [ngClass]="{ 'mat-selected': option.id === this.selectedValue }" class="input-item" [value]="option.id" style="max-height: 25px">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </ng-container>
+
+    <ng-container *ngIf="isChips">
+      <input #Input InputField type="text" [matAutocomplete]="auto" (keyup)="_filter($event)" />
+      <label for="{{ randomNumber }}" (click)="onClickLabel()">{{ inputLabel }}<span *ngIf="isRequired" Asterisk></span></label>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="getTitle.bind(this)" (optionSelected)="onOptionSelected(0, $event)">
+        <mat-option style="max-height: 25px" *ngFor="let option of masterList | FilterList : 'IsFound' : '1'" class="chip-input-item" [value]="option.id" [ngClass]="{ '--text-primary fw-bold': option.IsChipSelected }">
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </ng-container>
+    <mat-icon class="--text-gray --arrow-icon" #arrow (click)="onArrowClick(arrow, $event)">{{ isPanelOpen ? "keyboard_arrow_up" : "keyboard_arrow_down" }} </mat-icon>
+  </div>
+
+  <!-- Item Not Found Option -->
+  <ng-container *ngIf="isItemNotFound">
+    <div class="input-item show-option item-not-found" item-not-found="true">
+      {{ itemNotFoundMessage }}
+    </div>
+  </ng-container>
+</div>
+
+<!-- Chips -->
+<ng-container *ngIf="isChips && (masterList | FilterList : 'IsChipSelected' : '1')?.length">
+  <div class="pt-2 d-flex flex-wrap">
+    <div class="--chip" *ngFor="let item of masterList | FilterList : 'IsChipSelected' : '1'">
+      <span class="--text-gray">{{ item.name }}</span>
+      <mat-icon class="--text-gray --font-size-14 ms-2" [inline]="true" (click)="onRemoveChip(item)">close </mat-icon>
+    </div>
+  </div>
+</ng-container>

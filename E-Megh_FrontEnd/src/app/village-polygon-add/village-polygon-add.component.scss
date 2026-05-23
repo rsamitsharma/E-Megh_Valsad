@@ -1,0 +1,70 @@
+// .container {
+//   margin: 30px auto;
+//   width: 100vw;
+//   padding: 0 15px;
+//   font-family: Arial, sans-serif;
+//   box-sizing: border-box;
+// }
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.left-controls,
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  font-size: 16px;
+}
+
+.controls select,
+.controls .custom-input {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.controls button {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #125ea4;
+}
+
+/* Make map container full width */
+.map-container {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Force google-map to full width and fixed height */
+.map-container google-map {
+  display: block;
+  width: 100% !important;
+  height: 750px;
+}

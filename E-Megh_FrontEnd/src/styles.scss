@@ -1,0 +1,358 @@
+@import "variables.scss";
+@import "mixing.scss";
+@import "_material.scss";
+@import "master.scss";
+@import "~ngx-toastr/toastr.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --font-family-primary: "Open Sans", serif;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+  border: 1px solid #d7d7d7;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background: $--color-light-gray;
+  border: 3px solid #f1f1f1;
+
+  &:hover {
+    background: $--color-gray;
+  }
+}
+
+/* Scrollbar buttons (arrows) */
+::-webkit-scrollbar-button:single-button {
+  display: block;
+  background-color: #f1f1f1;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #d7d7d7;
+  border-radius: 2px;
+}
+
+/* Up arrow */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='gray' d='M0 3L5 0l5 3H0z'/></svg>");
+}
+
+/* Down arrow */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='gray' d='M0 7l5 3 5-3H0z'/></svg>");
+}
+
+/* Left arrow */
+::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='gray' d='M3 0L0 5l3 5V0z'/></svg>");
+}
+
+/* Right arrow */
+::-webkit-scrollbar-button:single-button:horizontal:increment {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path fill='gray' d='M7 0v10l3-5-3-5z'/></svg>");
+}
+
+table {
+  width: 100%;
+}
+
+small {
+  font-size: 12px !important;
+}
+
+textarea {
+  resize: none !important;
+}
+
+.mat-icon {
+  cursor: pointer !important;
+}
+
+.--navigation-container {
+  .row:first-of-type {
+    padding-bottom: 2rem;
+  }
+}
+
+.full-screen-modal {
+  max-width: unset !important;
+  width: 95%;
+
+  // height: 100%;
+  .mat-dialog-container {
+    max-width: 100vw;
+    // max-height: 100vh;
+    // height: 100%;
+    width: 100%;
+
+    .mat-dialog-content {
+      // max-height: unset !important;
+    }
+  }
+}
+
+/* Google Maps InfoWindow — restyled hover tooltip for map markers.
+   Selectors target the Google SDK's own DOM, which lives outside Angular's
+   view encapsulation, so this MUST be global. */
+.gm-style .gm-style-iw-c {
+  padding: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18) !important;
+  max-width: 260px !important;
+}
+
+.gm-style .gm-style-iw-d {
+  overflow: hidden !important;
+  max-height: none !important;
+
+  > div { overflow: hidden !important; }
+}
+
+// Hide Google's default close (X) — the InfoWindow auto-closes on mouseout
+// via OnMouseOut in MapDialogComponent, so the X is unnecessary noise.
+.gm-style .gm-ui-hover-effect {
+  display: none !important;
+}
+
+.map-iw {
+  padding: 14px 18px 14px 14px;
+  min-width: 200px;
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
+
+  .iw-type-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #2563eb;
+    background: #eef4ff;
+    border: 1px solid #c7d8f7;
+    padding: 3px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+
+  .iw-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f172a;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+
+  .iw-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+
+  .iw-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 4px;
+    border-radius: 8px;
+    border: 1px solid #e6ebf2;
+    background: #ffffff;
+
+    .iw-stat-label {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+    }
+    .iw-stat-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1;
+      margin-top: 3px;
+    }
+  }
+
+  .iw-stat-red {
+    border-color: rgba(220, 38, 38, 0.25);
+    background: #fef2f2;
+    .iw-stat-value { color: #dc2626; }
+  }
+  .iw-stat-yellow {
+    border-color: rgba(217, 119, 6, 0.25);
+    background: #fff8eb;
+    .iw-stat-value { color: #d97706; }
+  }
+  .iw-stat-white {
+    border-color: rgba(148, 163, 184, 0.3);
+    background: #f8fafc;
+    .iw-stat-value { color: #475569; }
+  }
+
+  // Small descriptive line used for marker types with no stats (e.g. sirens)
+  .iw-meta-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #fff8eb;
+    border: 1px solid rgba(217, 119, 6, 0.22);
+    font-size: 11px;
+    font-weight: 600;
+    color: #92400e;
+
+    i { color: #d97706; font-size: 12px; }
+  }
+
+  // Emergency-siren variant — amber accent instead of blue, to distinguish from villages.
+  &.iw-siren {
+    .iw-type-badge {
+      color: #d97706;
+      background: #fff8eb;
+      border-color: rgba(217, 119, 6, 0.3);
+    }
+  }
+}
+
+/* Centered map dialog — used by Village Map "Show on Map" button.
+   Sized + centered via dialogConfig (90vw, capped at 1300px). Auto-fits content. */
+.centered-map-dialog {
+  .mat-dialog-container {
+    padding: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    background: #ffffff;
+  }
+
+  // Slim white header (replaces the old blue --mat-dialog block)
+  .map-dialog-title {
+    background: #ffffff;
+    color: #0f172a;
+    padding: 14px 20px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 1px solid #e6ebf2;
+    letter-spacing: -0.01em;
+  }
+
+  // Content hugs the map — no scroll bleed, no extra Material padding
+  .map-dialog-content {
+    padding: 12px;
+    margin: 0;
+    max-height: none;
+    overflow: hidden;
+    display: block;
+  }
+
+  // Actions row — tight, with a separator above the Close button
+  .mat-dialog-actions,
+  [mat-dialog-actions] {
+    padding: 10px 18px;
+    margin: 0;
+    border-top: 1px solid #e6ebf2;
+    background: #fafbfd;
+    min-height: 0;
+  }
+
+  // Force agm-map to fill our preferred map area. !important needed because the
+  // component's own scoped style (height: 400px) has equal specificity and loads later.
+  agm-map {
+    display: block !important;
+    width: 100% !important;
+    height: 65vh !important;
+    min-height: 420px !important;
+    max-height: 700px !important;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+}
+
+.asterisk-container {
+  border-radius: 10px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-tooltip {
+  font-size: 14px;
+}
+
+// .table {
+//   width: 100% !important;
+//   overflow-x: scroll;
+// }
+// @media (max-width: 1060px) {
+//   .table {
+//     width: 100% !important;
+//     overflow-x: scroll;
+//   }
+
+//   th,
+//   td {
+//     min-width: 100px;
+//   }
+// }
+.google-visualization-table-table {
+  font-size: 13pt !important;
+}
+
+button.key {
+  font-size: 15px !important;
+  padding: 4px !important;
+}
+
+.google-visualization-controls-label {
+  font-size: 15px !important;
+}
+
+.google-visualization-controls-stringfilter {
+  display: flex !important;
+  align-items: center !important;
+}
+
+input#\31 4-input {
+  font-size: 15px !important;
+  padding-left: 5px !important;
+}

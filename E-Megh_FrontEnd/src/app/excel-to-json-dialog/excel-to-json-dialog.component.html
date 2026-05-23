@@ -1,0 +1,22 @@
+<h2 mat-dialog-title class="--heading-primary --text-primary">Excel File Upload</h2>
+<div mat-dialog-content>
+  <div class="row mb-2">
+    <ng-container *ngIf="dialogData?.FileFormat">
+      <div class="col-12 py-2 d-flex justify-content-end">
+        <a [href]="dialogData.FileFormat" target="_blank" rel="noopener noreferrer">Download Excel Format</a>
+      </div>
+    </ng-container>
+    <div class="col-12">
+      <div class="text-center">
+        <mat-icon class="--upload-icon p-5" (click)="ChooseFile(1, null)">cloud_upload</mat-icon>
+      </div>
+      <div class="text-center">
+        <span class="--text-primary --description-primary"> Open Choose File...</span>
+      </div>
+      <input type="file" #OpenFileUpload (change)="ChooseFile(2, $event)" class="d-none" />
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="--btn-outlined-red" tabindex="-1" matRipple mat-dialog-close="false">Close</button>
+</div>

@@ -1,0 +1,69 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Siren Location Master {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="SirenLocationID" [disabled]="true" />
+        <label Asterisk>Siren SensorID</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="SirenLocationName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Name</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <input-select inputLabel="Reading Location" placeholder="---Reading Location---" [(selectedValue)]="DisctrictID" [isRequired]="true" [isSearch]="false" [masterList]="DistrictList"> </input-select>
+    </div>
+
+    <div class="col-12 mb-2">
+      <input-select inputLabel="Gateway" placeholder="---Gateway---" [(selectedValue)]="GatewayMasterID" [isRequired]="true" [isSearch]="false" [masterList]="GatewaymasterList" (onSelectionChange)="GetGatewayIMEI($event)"> </input-select>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="GatewayIMEI" [disabled]="true" />
+        <label Asterisk>GatewayIMEI</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [IsDot]="true" [(ngModel)]="Latitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Latitude</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [IsDot]="true" [(ngModel)]="Longitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Longitude</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <mat-icon class="float-end mt-1" (click)="OpenMap()" [ngStyle]="{ 'pointer-events': !_GlobalService.rightsControl.canEdit && IsEdit ? 'none' : 'click' }"> place </mat-icon>
+      <div class="--input-group mt-5">
+        <textarea InputField autocomplete="off" type="text" [(ngModel)]="SAddress" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit"></textarea>
+        <label Asterisk>Address</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

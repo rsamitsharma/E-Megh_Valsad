@@ -1,0 +1,82 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Reservoir Discharge {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <!-- <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="ReservoirDischargeEntryID" [disabled]="true" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>ReservoirDischargeEntryID</label>
+      </div> -->
+    </div>
+
+    <div Class="col-12 mb-2">
+      <input-select inputLabel="Select Reservoir" placeholder="---Select Reservoir---" [(selectedValue)]="ReservoirID" [isRequired]="true" [isSearch]="false" [masterList]="ReservoirList"> </input-select>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="date" [(ngModel)]="ReservoirDischargeEntryDate" [max]="currentdate" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Entry Date</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="time" [(ngModel)]="ReservoirDischargeEntryTime" onkeydown="return false" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Entry Time</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="currentHeight" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Water Level (mtr)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="TotalInFlow" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Inflow (Cusec)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="TotalDischarge" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>OutFlow (Cusec)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="GrossStorage" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Gross Storage (MCM)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="SkipReason" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label>SkipReason</label>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 mb-2 mt-3">
+      <mat-checkbox name="IsSkip" [(ngModel)]="IsSkip" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsSkip </mat-checkbox>
+    </div> -->
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

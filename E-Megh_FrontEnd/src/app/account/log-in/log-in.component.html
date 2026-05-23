@@ -1,0 +1,68 @@
+<div class="--login-container">
+  <div class="d-flex justify-content-center align-items-center">
+    <img src="assets/ews_big_logo.png" alt="EWS LOGO" class="logo-image" />
+  </div>
+  <!-- <h1 class="--text-dark --heading-josefin"><b>Log in</b></h1> -->
+
+  <div class="login-form">
+    <!-- <div class="d-flex justify-content-center">
+      <img src="assets/img/logo.png" alt="logo" class="w-50" />
+    </div> -->
+
+    <!-- Login Type Toggle -->
+
+    <!-- Regular Login Form -->
+    <div *ngIf="!useMobileLogin" [@fadeInOut]>
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="Username" placeholder=" " />
+        <label>Username</label>
+      </div>
+
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="password" [(ngModel)]="Password" placeholder=" " />
+        <label>Password</label>
+      </div>
+
+      <div class="login-type-toggle mb-4 text-left">
+        <mat-checkbox (change)="toggleLoginMethod()" [checked]="useMobileLogin"> Login with mobile number </mat-checkbox>
+      </div>
+
+      <div class="mt-4 d-flex justify-content-center">
+        <button class="--btn-outlined-primary --width-50" matRipple (click)="onLogin()" [disabled]="!Username || !Password">LOG IN</button>
+      </div>
+    </div>
+
+    <!-- Mobile OTP Login Form -->
+    <div *ngIf="useMobileLogin" [@fadeInOut]>
+      <div class="--input-group">
+        <input InputField autocomplete="tel" type="tel" [(ngModel)]="mobileNumber" maxlength="10" (keyup)="onMobileInput($event)" placeholder=" " />
+        <label>Mobile Number</label>
+      </div>
+
+      <div *ngIf="showOtpField" class="otp-section" [@fadeInOut]>
+        <div class="--input-group mt-3">
+          <input InputField autocomplete="one-time-code" type="text" [(ngModel)]="otp" maxlength="6" placeholder=" " (keyup.enter)="verifyOtp()" />
+          <label>Enter OTP</label>
+        </div>
+        <div class="otp-timer text-center mt-2">
+          <small *ngIf="otpTimer > 0" class="text-muted">Resend OTP in {{ otpTimer }}s</small>
+          <a href="javascript:void(0)" *ngIf="otpTimer === 0" (click)="sendOtp()" class="text-primary"> Resend OTP </a>
+        </div>
+      </div>
+
+      <div class="login-type-toggle mb-4 text-left">
+        <mat-checkbox (change)="toggleLoginMethod()" [checked]="!useMobileLogin"> Login with Username/Password </mat-checkbox>
+      </div>
+
+      <div class="mt-2 d-flex justify-content-center">
+        <button class="--btn-outlined-primary --width-50" matRipple (click)="showOtpField ? verifyOtp() : sendOtp()" [disabled]="!mobileNumber || mobileNumber.length !== 10 || (showOtpField && (!otp || otp.length !== 5))">
+          {{ showOtpField ? "VERIFY OTP" : "SEND OTP" }}
+        </button>
+      </div>
+    </div>
+
+    <div class="w-100 mt-4 text-center">
+      <button class="--btn-outlined-primary --width-50" matRipple (click)="onGuestClick()">GUEST USER</button>
+    </div>
+  </div>
+</div>

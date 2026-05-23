@@ -1,0 +1,144 @@
+<div class="row m-0 p-0">
+  <!-- Water Level Status Marquee -->
+
+  <!-- Main Content -->
+  <div class="col-12 ps-5 pe-5 --bg-white" id="full-screen-container" [style.overflow]="IsFullScreen ? 'scroll' : 'auto'">
+    <div class="row align-items-center">
+      <div class="col-lg-12 col-12 mb-2" align="end">
+        <mat-icon matTooltip="FullScreen" matTooltipClass="matTooltip" class="--text-primary mx-2" (click)="onFullView()">
+          {{ IsFullScreen ? "fullscreen_exit" : "fullscreen" }}
+        </mat-icon>
+        <div class="water-level-marquee-container" *ngIf="waterLevelData" style="font-family: 'Lexend Deca', sans-serif">
+          <div class="marquee-wrapper">
+            <div class="marquee-content">
+              <div class="marquee-item">
+                <div class="d-flex align-items-center">
+                  <i class="fas fa-water text-primary me-2"></i>
+                  <span class="fw-semibold me-4" style="font-size: 18px">Water Level at Golden Bridge</span>
+
+                  <div class="d-flex align-items-center border-start px-4">
+                    <i class="text-success me-2"></i>
+                    <div class="d-flex flex-column">
+                      <span class="text-muted"
+                        >Water Level (ft) :- &nbsp; <span class="fw-bold text-success" style="font-size: 18px">{{ waterLevelData.WaterLevel_ft | number : "1.2-2" }}</span></span
+                      >
+                    </div>
+                  </div>
+                  <div class="d-flex align-items-center border-start px-4">
+                    <i class="text-info me-2"></i>
+                    <div class="d-flex flex-column">
+                      <span class="text-muted"
+                        >Water Level (m) :- &nbsp; <span class="fw-bold text-info" style="font-size: 18px">{{ waterLevelData.WaterLevel_mtr | number : "1.2-2" }}</span></span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center border-start border-end px-4 mx-2">
+                    <i class="text-muted me-2"></i>
+                    <div class="d-flex flex-column">
+                      <span class="text-muted"
+                        >Last Updated :- &nbsp; <span class="fw-bold" style="font-size: 18px">{{ waterLevelData.EDateTime | date : "yyyy-MM-dd hh:mm:ss a" : "UTC" }}</span></span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- === Slide 1: CHARTS === -->
+      <ng-container *ngIf="activeSlideIndex === 0">
+        <div class="col-12 mt-5">
+          <div class="d-block d-md-none text-center mb-2" style="background-color: #fff3cd; color: #856404; padding: 8px; border-radius: 4px; font-size: 0.9rem"><i class="fas fa-rotate-right me-1"></i> For a better chart view, rotate your phone to landscape mode</div>
+
+          <span *ngIf="chart.data.length > 0">
+            <div style="border: 1px solid #ccc; padding-top: 30px; position: relative; text-align: center" (click)="stopSlideshow()">
+              <div style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 0 10px; font-size: 30px; font-weight: bold; font-family: 'Lexend Deca', sans-serif">Water Level At Golden Bridge</div>
+              <google-chart [type]="chart.type" [data]="chart.data" [columns]="chart.columnNames" [options]="chart.options" (chartClick)="stopSlideshow()"></google-chart>
+            </div>
+          </span>
+
+          <span class="no-data" *ngIf="chart.data.length === 0">
+            <h3 style="font-family: 'Lexend Deca', sans-serif">No data Available</h3>
+          </span>
+        </div>
+        <div class="col-12 mt-5">
+          <span *ngIf="chart.data.length > 0">
+            <div style="border: 1px solid #ccc; padding-top: 30px; position: relative; text-align: center" (click)="stopSlideshow()">
+              <div style="position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 0 10px; font-size: 30px; font-weight: bold; font-family: 'Lexend Deca', sans-serif">Tidal Data</div>
+              <google-chart [type]="chart2.type" [data]="chart2.data" [columns]="chart2.columnNames" [options]="chart2.options" (chartClick)="stopSlideshow()"></google-chart>
+            </div>
+          </span>
+          <span class="no-data" *ngIf="chart.data.length === 0">
+            <h3 style="font-family: 'Lexend Deca', sans-serif">No data Available</h3>
+          </span>
+        </div>
+      </ng-container>
+
+      <!-- === Slide 2: MAP === -->
+      <ng-container *ngIf="activeSlideIndex === 1">
+        <div class="col-12 mt-1">
+          <h3 style="font-family: 'Lexend Deca', sans-serif; text-align: center">Village Alert Overview</h3>
+          <div style="height: 80vh; max-height: 80vh" (click)="stopSlideshow()">
+            <google-map [height]="'100%'" [width]="'100%'" [center]="location" [zoom]="11" [options]="mapOptions">
+              <map-marker *ngFor="let village of MapVillage" #marker="mapMarker" [position]="{ lat: village.LATITUDE, lng: village.LONGITUDE }" [options]="getMarkerOptions(village, 'village')" (mapClick)="openInfoWindowForVillage(marker, village)"> </map-marker>
+
+              <map-info-window #infoWindow="mapInfoWindow">
+                <div>
+                  <strong>Name : {{ selectedVillage?.NAME }}</strong>
+                  <br />
+                  White Min : {{ selectedVillage?.WHITE_MIN }}
+                  <br />
+                  Yellow Min : {{ selectedVillage?.YELLOW_MIN }}
+                  <br />
+                  Red Min : {{ selectedVillage?.RED_MIN }}
+                </div>
+              </map-info-window>
+            </google-map>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="activeSlideIndex === 2">
+        <div class="col-12 mt-1">
+          <h3 style="text-align: center; font-family: 'Lexend Deca', sans-serif">Siren & Sensor Overview</h3>
+          <div style="height: 80vh; max-height: 80vh" (click)="stopSlideshow()">
+            <google-map [height]="'100%'" [width]="'100%'" [center]="location" [zoom]="location.zoom" (mapClick)="stopSlideshow()" [options]="mapOptions">
+              <map-marker *ngFor="let village of MapSiren" #marker="mapMarker" [position]="{ lat: village.LATITUDE, lng: village.LONGITUDE }" [options]="getMarkerOptions(village, 'siren')" (mapClick)="stopSlideshow()" (mapClick)="openInfoWindowForSiren(marker, village)"> </map-marker>
+              <map-info-window #infoWindow="mapInfoWindow">
+                <div>
+                  <strong>Type : {{ selectedsiren?.TYPE === "READLOCATION" ? "SENSOR LOCATION" : "SIREN LOCATION" }}</strong>
+                  <br />
+                  <strong>Name : {{ selectedsiren?.NAME }}</strong>
+                </div>
+              </map-info-window>
+            </google-map>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Navigation Buttons - Left and Right Sides of Screen -->
+      <div style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; pointer-events: none" *ngIf="IsFullScreen">
+        <!-- Previous Button - Left Side -->
+        <button mat-fab color="primary" (click)="previousSlide()" style="position: absolute; left: 5px; top: 48%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.5); color: white; border: none; width: 48px; height: 48px; min-height: 48px; pointer-events: auto">
+          <mat-icon style="margin-bottom: 15px">chevron_left</mat-icon>
+        </button>
+
+        <!-- Next Button - Right Side -->
+        <button mat-fab color="primary" (click)="nextSlide()" style="position: absolute; right: 5px; top: 48%; transform: translateY(-50%); background-color: rgba(0, 0, 0, 0.5); color: white; border: none; width: 48px; height: 48px; min-height: 48px; pointer-events: auto">
+          <mat-icon style="margin-bottom: 15px">chevron_right</mat-icon>
+        </button>
+
+        <!-- Slide Indicator at Bottom Center -->
+        <div style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); background-color: rgba(0, 0, 0, 0.5); color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; pointer-events: auto; display: flex; align-items: center">
+          <button (click)="togglePlayPause()" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer">
+            <span *ngIf="isPlaying">⏸ Pause</span>
+            <span *ngIf="!isPlaying">▶ Play</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

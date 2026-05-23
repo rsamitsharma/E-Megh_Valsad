@@ -1,0 +1,8 @@
+<h2 class="--text-primary --heading-josefin" mat-dialog-title>{{ data.Title }}</h2>
+<mat-dialog-content>
+  <ng-container [ngTemplateOutlet]="data.innerContent"> </ng-container>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="--btn-outlined-red me-2" tabindex="-1" *ngIf="data.cancelButton" [mat-dialog-close]="false" matRipple>{{ data.cancelButton }}</button>
+  <button class="--btn-filled-primary" *ngIf="data.okButton" [mat-dialog-close]="true" matRipple>{{ data.okButton }}</button>
+</mat-dialog-actions>

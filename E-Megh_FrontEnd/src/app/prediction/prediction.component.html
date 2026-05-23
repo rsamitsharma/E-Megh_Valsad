@@ -1,0 +1,99 @@
+<div class="prediction-container">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="title-container">
+      <p class="main-title">Golden Bridge Water Level Predictions (Next 6 Hours)</p>
+      <!-- <p class="subtitle">Real-time monitoring and 24-hour forecast for Golden Bridge</p> -->
+    </div>
+
+    <div class="controls-container">
+      <div class="prediction-mode">
+        <label class="control-label">Prediction Mode:</label>
+        <select class="form-select" [(ngModel)]="predictionMode" (change)="onPredictionModeChange()">
+          <option value="withOutflow">With Dam Outflow</option>
+          <option value="withoutOutflow">Without Dam Outflow</option>
+        </select>
+      </div>
+
+      <div class="smoothing-controls">
+        <label class="control-label">Chart Smoothing:</label>
+        <div class="smoothing-buttons">
+          <button class="smoothing-btn" [class.active]="smoothingLevel === 'low'"
+            (click)="setSmoothingLevel('low')">Raw</button>
+          <button class="smoothing-btn" [class.active]="smoothingLevel === 'medium'"
+            (click)="setSmoothingLevel('medium')">Smooth</button>
+          <button class="smoothing-btn" [class.active]="smoothingLevel === 'high'"
+            (click)="setSmoothingLevel('high')">Very Smooth</button>
+        </div>
+      </div>
+
+      <!-- <button class="refresh-btn" (click)="refreshData()" [disabled]="isLoading">
+        <i class="icon-refresh" [class.spinning]="isLoading"></i>
+        Refresh Data
+      </button> -->
+    </div>
+  </div>
+
+  <!-- Status Cards -->
+  <div class="status-cards" *ngIf="jsonData">
+    <div class="status-card current-level">
+      <div class="card-header">
+        <i class="icon-gauge"></i>
+        <span>Current Level(Actual Water Level)</span>
+      </div>
+      <div class="card-value">{{ jsonData.ActualWaterLevel | number : "1.2-2" }} ft</div>
+      <!-- <div class="card-status" [ngClass]="getCurrentStatus().class">
+        {{ getCurrentStatus().status }}
+      </div> -->
+    </div>
+
+    <div class="status-card prediction-range">
+      <div class="card-header">
+        <i class="icon-trend"></i>
+        <span>24h Range</span>
+      </div>
+      <div class="card-value small">{{ jsonData.ActualWaterLevel * 0.8 | number : "1.2-2" }} - {{
+        jsonData.ActualWaterLevel * 1.2 | number : "1.2-2" }} ft</div>
+      <div class="card-status">Predicted Range</div>
+    </div>
+
+    <div class="status-card last-updated">
+      <div class="card-header">
+        <i class="icon-clock"></i>
+        <span>Last Updated</span>
+      </div>
+      <div class="card-value small">
+        {{ jsonData.EDateTime | date : "dd/MM HH:mm" : "UTC" }}
+      </div>
+      <div class="card-status">Auto-refresh: 5 min</div>
+    </div>
+  </div>
+
+  <!-- Chart Section -->
+  <div class="chart-section">
+    <div class="d-block d-md-none text-center mb-3"
+      style="background-color: #e7f5ff; color: #0056b3; padding: 8px; border-radius: 4px; font-size: 0.9rem"><i
+        class="fas fa-rotate-right me-1"></i> For a better chart view, rotate your phone to landscape mode</div>
+    <div class="chart-container" *ngIf="chartData.length > 0 && !isLoading; else loading">
+      <div class="chart-wrapper">
+        <google-chart [type]="type" [data]="chartData" [columns]="columnNames" [options]="chartOptions"
+          [height]="chartHeight" [width]="chartWidth" class="responsive-chart"> </google-chart>
+      </div>
+    </div>
+
+    <ng-template #loading>
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <p class="loading-text">Loading prediction data...</p>
+        <div class="loading-details">Please wait while we fetch the latest water level predictions</div>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- Footer Info -->
+  <div class="footer-info">
+    <div class="info-item"><strong>Data Source:</strong> Golden Bridge Monitoring Station</div>
+    <div class="info-item"><strong>Update Frequency:</strong> Every 5 minutes</div>
+    <div class="info-item"><strong>Prediction Accuracy:</strong> ±5-20% depending on time horizon</div>
+  </div>
+</div>

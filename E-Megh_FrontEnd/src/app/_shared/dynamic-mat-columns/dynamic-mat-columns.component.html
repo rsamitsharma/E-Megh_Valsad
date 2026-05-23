@@ -1,0 +1,30 @@
+<ng-container [ngSwitch]="item.columnType">
+  <ng-container *ngSwitchCase="'STRING'">
+    {{ row[item.valueKey] || "-" }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'NUMBER'">
+    {{ row[item.valueKey] | number : "1.2-2" }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'CURRENCY_DOLLAR'">
+    {{ row[item.valueKey] | currency : "USD" }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'CURRENCY_INR'">
+    {{ row[item.valueKey] | currency : "INR" }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'DATE'">
+    {{ row[item.valueKey] | date : "dd-MM-yyyy" }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'TIME'">
+    {{ row[item.valueKey].split("T")[1].split(":").slice(0, 2).join(":") }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'CHECK_BOX'">
+    <span *ngIf="row[item.valueKey]" class="text-yes"><mat-checkbox class="example-margin" [checked]="row[item.valueKey]" onclick="return false"></mat-checkbox></span>
+    <span *ngIf="!row[item.valueKey]" class="text-no"><mat-checkbox class="example-margin" onclick="return false"></mat-checkbox></span>
+  </ng-container>
+  <ng-container *ngSwitchCase="'FUNCTION'">
+    {{ row | TableRow : item.valueKey }}
+  </ng-container>
+  <ng-container *ngSwitchCase="'COLOR'">
+    <span class="background" [ngStyle]="{ 'border-color': row[item.valueKey] ? row[item.valueKey] : '' }"></span>
+  </ng-container>
+</ng-container>

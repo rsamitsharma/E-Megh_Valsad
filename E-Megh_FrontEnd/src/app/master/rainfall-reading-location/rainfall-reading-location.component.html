@@ -1,0 +1,28 @@
+<div class="row m-0 p-0">
+  <div class="col-12 m-3">
+    <h1 class="--heading-josefin"><b>Rainfall Reading Location Master</b></h1>
+  </div>
+  <hr />
+
+  <div class="col-12 mb-3 d-flex justify-content-end">
+    <div class="--input-group --width-25">
+      <input type="text" />
+      <label Asterisk>Search</label>
+    </div>
+  </div>
+
+  <div class="col-12 p-3">
+    <div class="mat-elevation-z8">
+      <div class="--table-container">
+        <table mat-table class="mat-paginator-sticky">
+          <ng-container [matColumnDef]="item.columnKey" *ngFor="let item of defaultTableColumns">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ item.headingName }}</th>
+            <td mat-cell *matCellDef="let row">
+              <dynamic-mat-columns *ngIf="row" [row]="row" [item]="item"></dynamic-mat-columns>
+            </td>
+          </ng-container>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Reservoir Master {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <!-- <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="ReservoirID" [disabled]="true" />
+        <label Asterisk>ReservoirID</label>
+      </div> -->
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="ReservoirName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Reservoir Name</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <mat-icon class="float-end mt-1" (click)="OpenMap()" [ngStyle]="{ 'pointer-events': !_GlobalService.rightsControl.canEdit && IsEdit ? 'none' : 'click' }"> place </mat-icon>
+      <div class="--input-group mt-5">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="ReservoirLocation" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Reservoir Location</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="ReservoirLatitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Reservoir Latitude</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="ReservoirLongitude" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Reservoir Longitude</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="KMFromCapital" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label>KMFromCapital</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="DangerLevelHeight" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Danger Level Height (mtr)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="TotalLevelHeight" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Total Level Height (mtr)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="WarningLevelHeight" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Warning Level Height (mtr)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="NormalDischarge" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label>Normal Discharge</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="MaxDischarge" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label>Max Discharge</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2 mt-2">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Max Time Interval for Enter Manual Data (Start from 06:00 AM)</mat-label>
+        <mat-select [(value)]="MaxTimeDuration" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">
+          <mat-option *ngFor="let option of timeIntervalOptions" [value]="option.value">
+            {{ option.display }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

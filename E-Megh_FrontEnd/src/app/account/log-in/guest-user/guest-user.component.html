@@ -1,0 +1,71 @@
+<div class="container h-100">
+  <div class="row justify-content-center h-100">
+    <div class="col-12">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center mb-4">
+          <h3 style="font-family: 'Lexend Deca', sans-serif">Sensor Status</h3>
+        </div>
+      </div>
+      
+      <div class="row justify-content-center">
+        <ng-container *ngFor="let item of SensorStatus">
+          <div class="col-lg-6 col-md-8 col-12 mb-4">
+            <div class="meters-wrapper card-style d-flex justify-content-between align-items-center" [class.is-live]="item.IsLive">
+              <div class="meters">
+                <h4>
+                  <b class="name-box">
+                    {{ item.Name }}
+                  </b>
+                </h4>
+                <h5 style="font-family: 'Lexend Deca', sans-serif" *ngIf="item.SType === 'Gateway' && !item.IsLive">
+                  <b [ngClass]="{ blinks: true }" class="name-boxRemark">
+                    {{ item.Remarks ? item.Remarks : "-" }}
+                  </b>
+                </h5>
+
+                <h5><b>Date & Time:</b> {{ item.EDateTime ? item.EDateTime : "-" }}</h5>
+                <h5>
+                  <b>{{ item.SType === "Reservoir" ? "Height" : "Level" }}: </b>
+                  <b>
+                    <span style="font-size: 18px">
+                      <ng-container *ngIf="item.SType === 'Reservoir'; else showLevel">
+                        <span style="color: rgb(0, 0, 0)"> {{ item.READ_MTR ?? 0 }} / {{ item.MaxWaterLevel ?? 1 }} mtr </span>
+                        <br />
+                        <h5><b>InOut:</b> {{ item.Reading ?? 0 }} / {{ item.Reading_mA ?? 0 }}</h5>
+                      </ng-container>
+                      <ng-template #showLevel>
+                        {{ item.READ_FT ?? 0 }} ft (<span style="color: blue">{{ item.READ_MTR ?? 0 }} mtr</span>)
+                      </ng-template>
+                    </span>
+                  </b>
+                </h5>
+              </div>
+
+              <!-- Water Fill Box (Small Square on Right Side) -->
+              <div class="water-box-wrapper position-relative">
+                <ng-container *ngIf="item.SType === 'Gateway'">
+                  <img style="margin-left: 17px" [src]="item.IsLive ? './assets/Sensor_Live-.png' : './assets/Sensor_Disconnect-.png'" alt="alarm" height="30" width="30" />
+                </ng-container>
+
+                <div class="water-box mt-2">
+                  <div class="water-fill" [ngClass]="getWaterClass(item.SType === 'Reservoir' ? item.percentageforreservoir : item.percentage)" [ngStyle]="{ height: getWaterLevel(item.SType === 'Reservoir' ? item.percentageforreservoir : item.percentage) }"></div>
+                  <div class="percentage-text text-center mt-2">
+                    <b>{{ item.SType === "Reservoir" ? item.percentageforreservoir.toFixed(2) : item.percentage.toFixed(2) === "100.00" ? 99.5 : item.percentage.toFixed(2) }}%</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      
+      <div class="row justify-content-center mt-4">
+        <div class="col-12 text-center">
+          <button mat-button color="primary" (click)="backToLogin()">
+            <mat-icon>arrow_back</mat-icon> Back to Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

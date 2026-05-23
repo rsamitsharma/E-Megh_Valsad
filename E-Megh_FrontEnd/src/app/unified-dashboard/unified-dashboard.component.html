@@ -1,0 +1,316 @@
+<div class="row m-0 p-0 unified-dashboard-container">
+  <!-- Main Grid Wrapper -->
+  <div class="col-12 ps-lg-5 pe-lg-5 ps-3 pe-3 mt-4" id="full-screen-container"
+    [style.overflow]="IsFullScreen ? 'scroll' : 'auto'">
+
+
+    <!-- Row 1: SIDE BY SIDE layout: Left (Sensor, Dam & Siren) | Right (Village Alerts) -->
+    <div class="row gx-4 gy-4 mb-4">
+
+      <!-- Left Column: Sensor and Dam Status (with sirens stacked underneath) -->
+      <div class="col-lg-6 col-12 d-flex align-items-stretch">
+        <div class="glass-card p-4 w-70 d-flex flex-column justify-content-between">
+          <div>
+            <!-- Section Header -->
+            <div class="glass-section-header mb-4 p-3 d-flex align-items-center gap-3">
+              <div class="header-icon-box bg-info text-white">
+                <i class="fas fa-wave-square fa-lg"></i>
+              </div>
+              <div>
+                <h2 class="telemetry-section-title">Sensor, Dam &amp; Siren Status</h2>
+                <p class="telemetry-section-desc">Live status of all field devices in your area</p>
+              </div>
+            </div>
+
+            <!-- Sensors Grid Layout -->
+            <div class="row align-items-stretch gy-4">
+              <ng-container *ngFor="let item of SensorStatus; let i = index">
+
+                <div class="col-12 d-flex align-items-stretch">
+                  <div class="telemetry-sensor-card w-100" [class.is-live]="item.IsLive">
+
+                    <div class="sensor-info-panel">
+                      <div class="sensor-header d-flex justify-content-between align-items-start mb-2">
+                        <span class="sensor-badge shadow-sm" [class.bg-success]="item.IsLive"
+                          [class.bg-danger]="!item.IsLive">
+                          <span class="dot-indicator me-1 animate-pulse"></span>
+                          {{ item.IsLive ? 'Online' : 'Offline' }}
+                        </span>
+                        <!-- <span class="sensor-type-badge">{{ item.SType }}</span> -->
+                      </div>
+
+                      <h3 class="sensor-name text-truncate" [matTooltip]="item.Name">{{ item.Name }}</h3>
+
+                      <div class="sensor-meta-grid my-3">
+                        <div class="meta-row">
+                          <span class="meta-label"><i class="far fa-calendar-alt me-2 text-muted"></i>Time:</span>
+                          <span class="meta-value text-truncate">{{ item.EDateTime ? item.EDateTime : "-" }}</span>
+                        </div>
+
+                        <div class="meta-row mt-2" *ngIf="item.SType === 'Reservoir'; else levelInfo">
+                          <span class="meta-label"><i class="fas fa-water me-2 text-muted"></i>Storage Level:</span>
+                          <span class="meta-value fw-bold text-dark">
+                            {{ item.READ_MTR ?? 0 }} / {{ item.MaxWaterLevel ?? 1 }} mtr
+                          </span>
+                        </div>
+
+                        <ng-template #levelInfo>
+                          <div class="meta-row mt-2">
+                            <span class="meta-label"><i class="fas fa-ruler-vertical me-2 text-muted"></i>Water
+                              Level:</span>
+                            <span class="meta-value fw-bold font-primary" style="font-size: 15px;">
+                              {{ item.READ_FT ?? 0 }} ft <span class="mtr-subtext text-primary">({{ item.READ_MTR ?? 0
+                                }} mtr)</span>
+                            </span>
+                          </div>
+                        </ng-template>
+
+                        <div class="meta-row mt-2" *ngIf="item.SType === 'Reservoir'">
+                          <span class="meta-label"><i class="fas fa-exchange-alt me-2 text-muted"></i>Flow Rate:</span>
+                          <span class="meta-value text-secondary">{{ item.Reading ?? 0 }} / {{ item.Reading_mA ?? 0 }}
+                            mA</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Volumetric Liquid Level Indicator -->
+                    <div class="sensor-visual-panel">
+                      <div class="water-telemetry-wrapper">
+                        <!-- Disconnected indicator icon -->
+                        <div class="connection-status-graphic mb-3" *ngIf="item.SType === 'Gateway'">
+                          <img [src]="item.IsLive ? './assets/Sensor_Live-.png' : './assets/Sensor_Disconnect-.png'"
+                            [alt]="item.IsLive ? 'Live' : 'Disconnected'" height="32" width="32"
+                            class="sensor-conn-icon animate-float" />
+                        </div>
+
+                        <!-- Volumetric Wave Visualizer -->
+                        <div class="volumetric-water-container shadow-inner">
+                          <div class="volumetric-wave"
+                            [ngClass]="getWaterClass(item.SType === 'Reservoir' ? item.percentageforreservoir : item.percentage)"
+                            [ngStyle]="{ height: getWaterLevel(item.SType === 'Reservoir' ? item.percentageforreservoir : item.percentage) }">
+                            <div class="wave-layer wave-back"></div>
+                            <div class="wave-layer wave-front"></div>
+                          </div>
+                          <div class="volumetric-percent">
+                            <span>{{ item.SType === "Reservoir" ? item.percentageforreservoir.toFixed(2) :
+                              item.percentage.toFixed(2) === "100.00" ? 99.5 : item.percentage.toFixed(2) }}%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Separator for Reservoirs -->
+                <div class="col-12" *ngIf="i < SensorStatus.length - 1 && item.STypeID !== SensorStatus[i + 1].STypeID">
+                  <div class="reservoir-separator-bar my-2 d-flex align-items-center gap-3">
+                    <hr class="flex-grow-1" />
+                    <span class="badge bg-dark px-3 py-1 fs-7"><i class="fas fa-fill-drip me-2"></i>Dam Details</span>
+                    <hr class="flex-grow-1" />
+                  </div>
+                </div>
+
+              </ng-container>
+            </div>
+
+            <!-- Siren list (under sensors, sharing the panel and its heading) -->
+            <hr class="sensor-siren-divider my-3" />
+
+            <div *ngFor="let group of groupedSirenLocations" class="siren-group-card-inline mb-2">
+              <h3 class="siren-group-title mb-2">
+                <span class="title-accent me-2"></span>
+                Siren Area: <span class="zone-highlight">{{ group.LocationName }}</span>
+              </h3>
+
+              <div class="row gx-2 gy-2">
+                <div class="col-sm-6 col-12 d-flex align-items-stretch" *ngFor="let item of group.Sirens">
+                  <div class="siren-node-card w-100" [ngClass]="item.IsLive ? 'node-live' : 'node-offline'">
+                    <div class="d-flex align-items-center gap-3 w-100">
+                      <div class="siren-bell-box shadow-sm">
+                        <img [src]="item.IsLive ? './assets/gSiren.png' : './assets/RedBell.png'"
+                          [alt]="item.IsLive ? 'Live Siren' : 'Offline Siren'" [class.animate-wobble-bell]="item.IsLive"
+                          height="38" width="38" />
+                      </div>
+
+                      <div class="siren-node-details flex-grow-1 text-truncate">
+                        <h4 class="siren-node-name text-truncate" [matTooltip]="item.SirenLocationName">{{
+                          item.SirenLocationName }}</h4>
+                        <div class="siren-meta-status mt-1">
+                          <span class="badge text-white" [class.bg-success]="item.IsLive"
+                            [class.bg-danger]="!item.IsLive">
+                            {{ item.IsLive ? 'Online' : 'Offline' }}
+                          </span>
+                          <div class="last-seen-text text-truncate mt-1" *ngIf="!item.IsLive">
+                            <span>Last Active: {{ item.EDateTime || "-" }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Village Alerts -->
+      <div class="col-lg-6 col-12 d-flex align-items-stretch">
+        <div class="glass-card p-4 w-100 alert-dashboard-panel d-flex flex-column justify-content-between">
+          <div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div>
+                <h2 class="section-card-title"><i class="fas fa-exclamation-triangle me-2 text-warning"></i>Village
+                  Alert List</h2>
+                <p class="section-card-desc">Alert levels for nearby villages</p>
+              </div>
+              <button class="map-shortcut-btn d-flex align-items-center gap-2 shadow-sm" (click)="OpenVillageMap()">
+                <span>Show on Map</span>
+                <img src="./assets/google-maps.png" alt="Google Maps" height="18" width="18" />
+              </button>
+            </div>
+
+            <!-- Quick Alert Counters -->
+            <div class="alert-counters-grid mb-3">
+              <div class="counter-pill red-border">
+                <span class="alert-icon">🟥</span>
+                <div class="counter-text">
+                  <div class="counter-num text-danger">{{ totalRedAlert }}</div>
+                  <div class="counter-label">Red Alerts</div>
+                </div>
+              </div>
+              <div class="counter-pill yellow-border">
+                <span class="alert-icon">🟨</span>
+                <div class="counter-text">
+                  <div class="counter-num text-warning">{{ totalYellowAlert }}</div>
+                  <div class="counter-label">Yellow Alerts</div>
+                </div>
+              </div>
+              <div class="counter-pill white-border">
+                <span class="alert-icon">⬜</span>
+                <div class="counter-text">
+                  <div class="counter-num text-secondary">{{ totalwhiteAlert }}</div>
+                  <div class="counter-label">White Alerts</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Village Alerts Detail Cards -->
+            <div class="row gy-3 mt-1">
+              <!-- Red Alert Box -->
+              <div class="col-12">
+                <div class="village-alert-box red-gradient">
+                  <div class="vbox-title d-flex justify-content-between align-items-center">
+                    <span>🟥 Red Alert Villages</span>
+                    <span class="badge bg-danger rounded-pill">{{ redAlertVillages.length }}</span>
+                  </div>
+                  <div class="vbox-body">
+                    <ul *ngIf="redAlertVillages.length > 0">
+                      <li *ngFor="let village of redAlertVillages"><i
+                          class="fas fa-bell text-danger me-2 animate-bounce-custom"></i>{{ village }}</li>
+                    </ul>
+                    <div class="no-alerts-msg py-3 text-center" *ngIf="redAlertVillages.length === 0">
+                      <i class="fas fa-check-circle text-success me-2"></i>No villages in Red Alert
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Yellow Alert Box -->
+              <div class="col-12">
+                <div class="village-alert-box yellow-gradient">
+                  <div class="vbox-title d-flex justify-content-between align-items-center">
+                    <span>🟨 Yellow Alert Villages</span>
+                    <span class="badge bg-warning text-dark rounded-pill">{{ yellowAlertVillages.length }}</span>
+                  </div>
+                  <div class="vbox-body">
+                    <ul *ngIf="yellowAlertVillages.length > 0">
+                      <li *ngFor="let village of yellowAlertVillages"><i
+                          class="fas fa-exclamation-circle text-warning me-2"></i>{{ village }}</li>
+                    </ul>
+                    <div class="no-alerts-msg py-3 text-center" *ngIf="yellowAlertVillages.length === 0">
+                      <i class="fas fa-check-circle text-success me-2"></i>No villages in Yellow Alert
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- White Alert Box -->
+              <div class="col-12">
+                <div class="village-alert-box white-gradient">
+                  <div class="vbox-title d-flex justify-content-between align-items-center">
+                    <span>⬜ White Alert Villages</span>
+                    <span class="badge bg-secondary rounded-pill">{{ whiteAlertVillages.length }}</span>
+                  </div>
+                  <div class="vbox-body">
+                    <ul *ngIf="whiteAlertVillages.length > 0">
+                      <li *ngFor="let village of whiteAlertVillages"><i
+                          class="fas fa-info-circle text-secondary me-2"></i>{{ village }}</li>
+                    </ul>
+                    <div class="no-alerts-msg py-3 text-center" *ngIf="whiteAlertVillages.length === 0">
+                      <i class="fas fa-check-circle text-success me-2"></i>No villages in White Alert
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Row 2: Water Level and Forecast Graph (FULL WIDTH, bottom) -->
+    <div class="row gx-4 gy-4 mb-4">
+      <div class="col-12">
+        <div class="glass-card p-4 d-flex flex-column justify-content-between">
+          <div class="card-head-area mb-3 d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+              <h2 class="section-card-title"><i class="fas fa-chart-area me-2 text-primary"></i>Water Level and Forecast
+                Graph</h2>
+              <p class="section-card-desc">Shows current water level, danger level, and forecast level</p>
+            </div>
+
+            <!-- Controls (Select Location) -->
+            <div class="d-flex flex-wrap align-items-center gap-3 controls-row">
+              <div class="select-wrapper">
+                <input-select inputLabel="Select Location" [(selectedValue)]="ReadingLocationID" [isRequired]="true"
+                  [isSearch]="true" [masterList]="LocationList" (onSelectionChange)="onDaysChange()">
+                </input-select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trend Chart -->
+          <div class="chart-wrapper flex-grow-1 my-3">
+            <div class="d-block d-md-none text-center mb-3 landscape-notice">
+              <i class="fas fa-sync me-1"></i> Rotate screen sideways for details
+            </div>
+
+            <div class="chart-container-wrapper" *ngIf="chart.data.length > 0">
+              <google-chart [type]="chart.type" [data]="chart.data" [columns]="chart.columnNames"
+                [options]="chart.options"></google-chart>
+            </div>
+
+            <div class="no-data-display py-5 text-center" *ngIf="chart.data.length === 0">
+              <div class="pulse-icon mb-3">
+                <i class="fas fa-database text-muted fa-3x animate-pulse"></i>
+              </div>
+              <h3>No Water Level Data Found</h3>
+              <p class="text-muted">Choose another location or timeline range above.</p>
+            </div>
+          </div>
+
+          <!-- Date info footer -->
+          <div class="chart-date-footer d-flex justify-content-between text-muted fs-6" *ngIf="chart.data.length > 0">
+            <span><strong>Start Date:</strong> {{ FromDate | date : 'dd MMM yyyy, hh:mm a' }}</span>
+            <span><strong>End Date (Forecast):</strong> {{ ToDate | date : 'dd MMM yyyy, hh:mm a' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

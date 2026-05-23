@@ -1,0 +1,177 @@
+:root {
+  --primary-color: #1f4988;
+  --light-primary-color: #0d6efd80;
+}
+
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+
+// New Colors
+$--color-primary: var(--primary-color);
+$--color-light-primary: var(--light-primary-color);
+$--color-gray: #808080;
+$--color-dark: #000;
+$--color-green: #198754;
+$--color-light-green: #19875480;
+$--color-red: #dc3545;
+$--color-light-red: #dc354580;
+$--color-white: #fff;
+$--color-light: #f5f5f5;
+$--color-yellow: #ffc107;
+$--color-light-yellow: #ffc10780;
+$--color-light-gray: #8080807d;
+$--color-dark-gray: #6c757d;
+$--color-blue: #0d6efd;
+$--color-light-blue: #0d6efd80;
+
+// font-size
+$--font-size-xl: 1.5rem;
+$--font-size-lg: 1.25rem;
+$--font-size-md: 1rem;
+$--font-size-sm: 0.875rem;
+
+// font-family
+$--font-family-primary: "Josefin Sans", sans-serif;
+$--font-family-secondary: "Roboto", sans-serif;
+
+//min-width
+$--min-height: 65vh;
+
+// Input
+$--input-line-height: 25px;
+$--input-padding: 7px 14px;
+$--box-shadow-gray: 0 4px 8px 0 rgb(0 0 0 / 20%);
+
+//  Buttons
+@mixin --filled-button($color: $--color-primary) {
+  padding: 5px 40px;
+  background-color: $color;
+  border: 1px solid;
+  border-color: transparent;
+  border-radius: 5px;
+  color: $white;
+  cursor: pointer;
+  transition: 0.5s;
+  font-family: $--font-family-primary;
+
+  &:hover {
+    border-color: $color;
+    color: $color;
+    background-color: $white;
+  }
+
+  &:disabled {
+    border-color: $--color-dark-gray;
+    background-color: $--color-dark-gray;
+    color: $white;
+    cursor: not-allowed;
+  }
+}
+
+@mixin --outlined-button($color: $--color-primary) {
+  padding: 5px 40px;
+  background-color: $white;
+  border: 1px solid;
+  border-color: $color;
+  border-radius: 5px;
+  color: $color;
+  cursor: pointer;
+  transition: 0.5s;
+  font-family: $--font-family-primary;
+
+  &:hover {
+    background-color: $--color-light;
+  }
+
+  &:disabled {
+    border-color: $--color-dark-gray;
+    background-color: $--color-dark-gray;
+    color: $white;
+    cursor: not-allowed;
+  }
+}
+
+@mixin flexbox-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+@mixin flexbox-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Input
+@mixin input-group {
+  margin-top: 16px;
+  height: 41px;
+  position: relative;
+  border: 1px solid $--color-gray;
+  border-radius: 8px;
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+}
+
+@mixin input-field {
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  color: $--color-dark-gray;
+  font-size: 14px;
+  line-height: $--input-line-height;
+  outline: none;
+  font-family: $--font-family-primary;
+}
+
+@mixin input-label {
+  position: absolute;
+  background-color: transparent;
+  padding: $--input-padding;
+  line-height: $--input-line-height;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  color: $--color-dark-gray;
+  font-size: 13px;
+  cursor: text;
+  transition: 0.35s;
+  font-family: $--font-family-primary;
+}
+
+@mixin input-icon {
+  position: absolute;
+  margin-right: 5px;
+  line-height: 15px;
+  right: 0;
+  bottom: 0;
+  color: $--color-dark-gray;
+  font-size: 20px;
+}
+
+@mixin input-placeholder-focus {
+  padding: 0px 6px;
+  top: -12px;
+  left: 10px;
+  bottom: auto;
+  background-color: $--color-white;
+  color: $--color-primary;
+  font-family: $--font-family-primary;
+}
+
+@mixin item-box($border-color) {
+  padding: 5px 15px 4px 15px;
+  min-width: 100px;
+  border: 1px solid $border-color;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 50px;
+  color: $--color-gray;
+}

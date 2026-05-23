@@ -1,0 +1,33 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">User Type Master {{ !IsEdit ? "Entry" : "Update" }}</h1>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div Class="col-12 mb-2" *ngIf="IsEdit">
+      <div class="--input-group">
+        <input InputField Asterisk autocomplete="off" type="text" [(ngModel)]="TypeID" [disabled]="true" />
+        <label Asterisk>Type ID</label>
+      </div>
+    </div>
+
+    <div Class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField Asterisk autocomplete="off" type="text" [(ngModel)]="TypeName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Type Name</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

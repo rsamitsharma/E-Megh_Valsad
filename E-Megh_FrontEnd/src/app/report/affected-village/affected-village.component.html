@@ -1,0 +1,30 @@
+<div class="row m-0 p-0">
+  <div class="col-12 m-4">
+    <h3 class="--heading-josefin"><b>Affected Village</b></h3>
+  </div>
+
+  <hr />
+  <div class="col-12">
+    <div class="row">
+      <div class="col-lg-3 mb-3 col-12">
+        <input-select inputLabel="Reading Location" [(selectedValue)]="ReadingLocationID" [isRequired]="true" [isSearch]="true" [masterList]="ReadingLocationList" (onSelectionChange)="GetAffectedVillage()"> </input-select>
+      </div>
+
+      <div class="col-12">
+        <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom">
+          <agm-marker *ngFor="let m of markers" [latitude]="m.lat" [longitude]="m.lng" [iconUrl]="{ url: m.Icon, scaledSize: SizeScale }" (mouseOver)="OnMouseOver(infoWindow)" (mouseOut)="OnMouseOut(infoWindow)">
+            <agm-info-window #infoWindow>
+              <p class="mb-2">Type : {{ m.Type }}</p>
+              <p class="mb-2">Name : {{ m.Name }}</p>
+              <ng-container *ngIf="m.Type !== 'SIRENLOCATION'">
+                <p class="mb-2">Red : {{ m.RED_MIN }}</p>
+                <p class="mb-2">White: {{ m.WHITE_MIN }}</p>
+                <p class="mb-2">Yellow : {{ m.YELLOW_MIN }}</p>
+              </ng-container>
+            </agm-info-window>
+          </agm-marker>
+        </agm-map>
+      </div>
+    </div>
+  </div>
+</div>

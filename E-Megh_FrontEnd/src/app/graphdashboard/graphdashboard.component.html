@@ -1,0 +1,115 @@
+<div class="row m-0 p-0">
+  <!-- Weather Data Marquee -->
+  <!-- <div class="weather-marquee text-dark py-2 border-bottom" *ngIf="WeatherData">
+    <div class="marquee-content d-flex align-items-center">
+      <div class="mx-4"><i class="fas fa-map-marker-alt me-2"></i> {{ WeatherData.name }}, {{ WeatherData.sys?.country }}</div>
+      <div class="mx-4"><i class="fas fa-thermometer-half me-2"></i> {{ WeatherData.temp_celcius }}°C (Feels like {{ WeatherData.temp_feels_like }}°C)</div>
+      <div class="mx-4"><i class="fas fa-cloud me-2"></i> {{ WeatherData.weather[0]?.description | titlecase }}</div>
+      <div class="mx-4"><i class="fas fa-tint me-2"></i> Humidity: {{ WeatherData.main?.humidity }}%</div>
+      <div class="mx-4"><i class="fas fa-wind me-2"></i> Wind: {{ WeatherData.wind?.speed }} m/s</div>
+
+      <div class="mx-4"><i class="fas fa-sun me-2"></i> Sunset Time: {{ WeatherData.sunset_time }}</div>
+    </div>
+  </div>   -->
+
+  <!-- <h1 style="text-align: center">Chart Dashboard</h1> -->
+  <div class="col-12 ps-5 pe-5 --bg-white" id="full-screen-container" [style.overflow]="IsFullScreen ? 'scroll' : 'auto'">
+    <div class="row align-items-center">
+      <div class="col-lg-12 col-12 mb-2" align="end">
+        <mat-icon matTooltip="FullScreen" matTooltipClass="matTooltip" class="--text-primary mx-2" (click)="onFullView()">{{ IsFullScreen ? "fullscreen_exit" : "fullscreen" }}</mat-icon>
+      </div>
+      <div class="col-12">
+        <div class="col-lg-3 col-12 mt-2 mb-3">
+          <input-select inputLabel="Reading Location" [(selectedValue)]="ReadingLocationID" [isRequired]="true" [isSearch]="true" [masterList]="LocationList" (onSelectionChange)="onDaysChange()"> </input-select>
+        </div>
+
+        <div class="col-lg-9 col-12 mb-3" style="width: 25%" align="end">
+          <div class="d-flex justify-content-between align-items-center" style="gap: 10px; margin-top: -4px">
+            <button class="mb-4 btn rounded-circle shadow-sm d-flex justify-content-center align-items-center" (click)="changeDays(-1)" [disabled]="selectedIndex === 0" style="background-color: #b5cbd6; color: #023e8a; width: 30px; height: 30px; border: none; font-size: 1.2rem">
+              <strong><img src="assets/minus (1).png" alt="" height="20px" width="20px" /></strong>
+            </button>
+            <div class="position-relative flex-grow-1 progress-container">
+              <div class="progress bg-light shadow-sm" style="margin-top: 27px">
+                <div class="progress-bar text-white fw-bold" role="progressbar" [style.width]="getProgressWidth()" aria-valuenow="selectedDays" aria-valuemin="0" aria-valuemax="30"></div>
+              </div>
+
+              <!-- Selected Days -->
+              <div class="selected-days d-flex align-items-center justify-content-center">
+                <span>Previous :</span>
+                <span class="mx-1">{{ selectedDays }}</span>
+                <span>Days</span>
+              </div>
+            </div>
+
+            <button class="mb-4 btn rounded-circle shadow-sm d-flex justify-content-center align-items-center" (click)="changeDays(1)" [disabled]="selectedIndex === daysOptions.length - 1" style="background-color: #b5cbd6; color: #023e8a; width: 30px; height: 30px; border: none; font-size: 1.2rem">
+              <strong><img src="assets/plus.png" alt="" height="20px" width="20px" /></strong>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 mt-2 --border-light-gray">
+        <div class="d-block d-md-none text-center mb-2" style="background-color: #fff3cd; color: #856404; padding: 8px; border-radius: 4px; font-size: 0.9rem"><i class="fas fa-rotate-right me-1"></i> For a better chart view, rotate your phone to landscape mode</div>
+        <!-- <div class="row align-items-center">
+      <div class="col-lg-7 col-md-6 col-12 mb-2 d-flex justify-content-center chart-container">  -->
+        <span *ngIf="chart.data.length > 0">
+          <div class="chart-container">
+            <google-chart [type]="chart.type" [data]="chart.data" [columns]="chart.columnNames" [options]="chart.options"> </google-chart>
+          </div>
+        </span>
+        <span class="no-data" *ngIf="chart.data.length === 0">
+          <h3>No data Available</h3>
+        </span>
+        <!-- </div>
+         </div> -->
+      </div>
+
+      <div class="col-xxl-8 col-xl-8 col-12 mt-5">
+        <div style="text-align: center">
+          <h3 class="text-center" style="color: #01070f; margin: 0; font-family: 'Lexend Deca', sans-serif">Tidal Data Of Golden Bridge</h3>
+          <hr style="border-color: #01070f; margin: 10px 0" />
+          <div class="chart-container">
+            <google-chart [type]="chart2.type" [data]="chart2.data" [columns]="chart2.columnNames" [options]="chart2.options"> </google-chart>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-12 mt-2">
+        <div class="alert-box">
+          <h4 (click)="OpenVillageMap()" class="clickable">Villages On Map <img class="me2 mb-2" src="./assets/google-maps.png" alt="" height="20px" width="20px" /></h4>
+          <div class="d-flex justify-content-between">
+            <h5>
+              Total Red Alert: <span class="alert-red">{{ totalRedAlert }}</span>
+            </h5>
+            <h5>
+              Total Yellow Alert: <span class="alert-yellow">{{ totalYellowAlert }}</span>
+            </h5>
+            <h5>
+              Total White Alert: <span class="alert-white">{{ totalwhiteAlert }}</span>
+            </h5>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div class="village-box">
+              <h5><span>🟥</span><span class="alert-text"> Red Alert </span><span class="mobile-text"></span></h5>
+              <ul>
+                <li *ngFor="let village of redAlertVillages">{{ village }}</li>
+              </ul>
+            </div>
+            <div class="village-box yellow-alert">
+              <h5><span>🟨</span><span class="alert-text"> Yellow Alert </span><span class="mobile-text"></span></h5>
+              <ul>
+                <li *ngFor="let village of yellowAlertVillages">{{ village }}</li>
+              </ul>
+            </div>
+            <div class="village-box white-alert">
+              <h5><span>⬜</span><span class="alert-text"> White Alert </span><span class="mobile-text"></span></h5>
+              <ul>
+                <li *ngFor="let village of whiteAlertVillages">{{ village }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

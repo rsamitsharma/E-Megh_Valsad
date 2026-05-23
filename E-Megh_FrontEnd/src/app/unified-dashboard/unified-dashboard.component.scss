@@ -1,0 +1,918 @@
+/* Unified Dashboard - E-Megh System
+   Design system: monochrome blue + status accents.
+   Only red / amber / grey are used to communicate alert state.
+   Everything else is neutral white / slate. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* -- Design tokens --------------------------------------------------------- */
+$font-stack: 'Inter', 'Segoe UI', Roboto, sans-serif;
+
+// Neutral surface
+$bg-page: #f6f8fb;
+$bg-card: #ffffff;
+$border-soft: #e6ebf2;
+$border-mid: #d6deea;
+
+// Text
+$text-strong: #0f172a;
+$text-base: #334155;
+$text-muted: #64748b;
+$text-faint: #94a3b8;
+
+// Single brand accent (blue)
+$accent: #2563eb;
+$accent-dark: #1d4ed8;
+$accent-soft: #eef4ff;
+$accent-border: #c7d8f7;
+
+// Status (used sparingly, only for actual states)
+$status-danger: #dc2626;
+$status-danger-bg: #fef2f2;
+$status-warn: #d97706;
+$status-warn-bg: #fff8eb;
+$status-ok: #059669;
+$status-ok-bg: #ecfdf5;
+$status-idle: #94a3b8;
+$status-idle-bg: #f1f5f9;
+
+// Elevation
+$shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+$shadow-md: 0 4px 14px rgba(15, 23, 42, 0.06);
+$shadow-lg: 0 10px 28px rgba(15, 23, 42, 0.08);
+
+$radius-card: 16px;
+$radius-pill: 10px;
+
+/* -- Page shell ------------------------------------------------------------ */
+.unified-dashboard-container {
+  font-family: $font-stack;
+  background: $bg-page;
+  min-height: 100vh;
+  padding-bottom: 50px;
+  color: $text-strong;
+  letter-spacing: -0.01em;
+}
+
+/* -- Card primitive -------------------------------------------------------- */
+.glass-card {
+  background: $bg-card;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+.section-card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: $text-strong;
+  margin: 0;
+  letter-spacing: -0.02em;
+
+  i {
+    color: $accent !important;
+  }
+}
+
+.section-card-desc {
+  font-size: 12px;
+  color: $text-muted;
+  margin: 3px 0 0 0;
+  font-weight: 500;
+}
+
+/* -- Controls row ---------------------------------------------------------- */
+.controls-row {
+  .select-wrapper {
+    min-width: 220px;
+    height: 40px;
+  }
+}
+
+/* -- Chart area ------------------------------------------------------------ */
+.chart-container-wrapper {
+  width: 100%;
+  height: 380px;
+  overflow: hidden;
+
+  google-chart {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+.landscape-notice {
+  background: $accent-soft;
+  color: $accent-dark;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.no-data-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: $text-base;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 13px;
+    color: $text-muted;
+  }
+}
+
+.chart-date-footer {
+  border-top: 1px solid $border-soft;
+  padding-top: 12px;
+  margin-top: 10px;
+  font-size: 12px !important;
+  color: $text-muted;
+
+  strong {
+    color: $text-base;
+    font-weight: 600;
+  }
+}
+
+/* -- Village alerts panel -------------------------------------------------- */
+.alert-dashboard-panel {
+  background: $bg-card;
+}
+
+.map-shortcut-btn {
+  background: $accent;
+  border: none;
+  border-radius: $radius-pill;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    background: $accent-dark;
+    transform: translateY(-1px);
+  }
+}
+
+/* Alert counter pills ------------------------------------------------------ */
+.alert-counters-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.counter-pill {
+  background: $bg-card;
+  border-radius: $radius-pill;
+  padding: 12px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $border-soft;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: $border-mid;
+  }
+
+  // Status accents only via the left edge — keeps surface neutral.
+  &.red-border {
+    box-shadow: inset 3px 0 0 0 $status-danger;
+  }
+
+  &.yellow-border {
+    box-shadow: inset 3px 0 0 0 $status-warn;
+  }
+
+  &.white-border {
+    box-shadow: inset 3px 0 0 0 $status-idle;
+  }
+}
+
+.alert-icon {
+  font-size: 14px;
+  margin-bottom: 4px;
+  filter: grayscale(0.15);
+}
+
+.counter-num {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  text-align: center;
+  color: $text-strong;
+}
+
+.counter-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: $text-muted;
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Override Bootstrap text colours so counters stay monochrome */
+.counter-pill .counter-num.text-danger,
+.counter-pill .counter-num.text-warning,
+.counter-pill .counter-num.text-secondary {
+  color: $text-strong !important;
+}
+
+/* Village list boxes ------------------------------------------------------- */
+.village-alert-box {
+  border-radius: 12px;
+  overflow: hidden;
+  background: $bg-card;
+  border: 1px solid $border-soft;
+
+  .vbox-title {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    background: #fafbfd;
+    border-bottom: 1px solid $border-soft;
+    color: $text-base;
+  }
+
+  .vbox-body {
+    background: $bg-card;
+    max-height: 120px;
+    overflow-y: auto;
+    padding: 6px 12px;
+
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: $border-mid;
+      border-radius: 4px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      padding: 7px 0;
+      font-size: 12px;
+      font-weight: 500;
+      color: $text-base;
+      border-bottom: 1px solid $border-soft;
+      display: flex;
+      align-items: center;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  // Status only through a thin left rail and an icon tint
+  &.red-gradient {
+    border-left: 3px solid $status-danger;
+
+    .vbox-title {
+      color: $status-danger;
+    }
+  }
+
+  &.yellow-gradient {
+    border-left: 3px solid $status-warn;
+
+    .vbox-title {
+      color: $status-warn;
+    }
+  }
+
+  &.white-gradient {
+    border-left: 3px solid $status-idle;
+
+    .vbox-title {
+      color: $text-muted;
+    }
+  }
+}
+
+.no-alerts-msg {
+  font-size: 11px;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+/* -- Section header strip -------------------------------------------------- */
+.glass-section-header {
+  background: $bg-card;
+  border-radius: 14px;
+  border: 1px solid $border-soft;
+  box-shadow: $shadow-sm;
+  display: flex;
+  align-items: center;
+}
+
+.header-icon-box {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // Force every header icon to use the single brand accent.
+  &.bg-info,
+  &.bg-warning {
+    background: $accent-soft !important;
+    color: $accent !important;
+    border: 1px solid $accent-border;
+
+    i {
+      color: $accent !important;
+    }
+  }
+}
+
+.telemetry-section-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: $text-strong;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.telemetry-section-desc {
+  font-size: 11px;
+  color: $text-muted;
+  margin: 2px 0 0 0;
+  font-weight: 500;
+}
+
+/* -- Sensor / dam cards ---------------------------------------------------- */
+.telemetry-sensor-card {
+  background: $bg-card;
+  border: 1px solid $border-soft;
+  border-radius: 12px;
+  box-shadow: $shadow-sm;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  max-width: 430px;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  border-left: 3px solid $status-idle;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+    border-color: $border-mid;
+  }
+
+  // Status edge — neutral card body, colour only on the rail
+  &.is-live {
+    border-left-color: $status-ok;
+  }
+
+  &:not(.is-live) {
+    border-left-color: $status-danger;
+  }
+}
+
+.sensor-info-panel {
+  flex: 1;
+  padding-right: 15px;
+  min-width: 0;
+}
+
+.sensor-badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 9px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  text-transform: uppercase;
+
+  // Override Bootstrap colour utilities so badges stay subtle pills.
+  &.bg-success {
+    background: $status-ok-bg !important;
+    color: $status-ok !important;
+    border: 1px solid rgba(5, 150, 105, 0.18);
+  }
+
+  &.bg-danger {
+    background: $status-danger-bg !important;
+    color: $status-danger !important;
+    border: 1px solid rgba(220, 38, 38, 0.18);
+  }
+}
+
+.dot-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+}
+
+.sensor-type-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: $text-muted;
+  background: $status-idle-bg;
+  padding: 4px 9px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sensor-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: $text-strong;
+  margin: 12px 0 8px;
+  letter-spacing: -0.01em;
+}
+
+// Disconnected-pill — same family as other badges, no harsh fill
+.remark-pulse-container .badge.blink-danger-pill {
+  background: $status-danger-bg !important;
+  color: $status-danger !important;
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  font-weight: 600;
+  border-radius: $radius-pill;
+}
+
+.sensor-meta-grid {
+  font-size: 12px;
+
+  .meta-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .meta-label {
+    color: $text-muted;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+
+    i {
+      color: $text-faint !important;
+    }
+  }
+
+  .meta-value {
+    color: $text-strong;
+    font-weight: 600;
+    max-width: 160px;
+
+    &.font-primary {
+      color: $accent !important;
+    }
+
+    .mtr-subtext {
+      font-size: 10px;
+      font-weight: 500;
+      color: $text-muted !important;
+    }
+  }
+}
+
+/* Water level visual ------------------------------------------------------- */
+.water-telemetry-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.volumetric-water-container {
+  width: 76px;
+  height: 76px;
+  border-radius: 14px;
+  background: $status-idle-bg;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid $border-soft;
+}
+
+.volumetric-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+
+  // All three levels share the same blue family — only saturation shifts.
+  &.water-low {
+    background: linear-gradient(180deg, #93c5fd 0%, #60a5fa 100%);
+  }
+
+  &.water-medium {
+    background: linear-gradient(180deg, #60a5fa 0%, $accent 100%);
+  }
+
+  &.water-high {
+    background: linear-gradient(180deg, $accent 0%, $accent-dark 100%);
+  }
+}
+
+.wave-layer {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: transparent;
+  border-radius: 43%;
+  left: -64px;
+  bottom: -15px;
+}
+
+// Toned-down: slower rotation, lower-contrast highlights
+.wave-back {
+  background: rgba(255, 255, 255, 0.12);
+  animation: waveScroll 7s infinite linear;
+}
+
+.wave-front {
+  background: rgba(255, 255, 255, 0.18);
+  animation: waveScroll 5s infinite linear;
+}
+
+@keyframes waveScroll {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.volumetric-percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: $text-strong;
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.75);
+}
+
+/* Separator between sensor groups */
+.reservoir-separator-bar {
+  span {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: $bg-card !important;
+    color: $text-muted !important;
+    border: 1px solid $border-soft;
+    font-size: 10px;
+  }
+
+  hr {
+    border-top: 1px dashed $border-mid;
+    opacity: 1;
+  }
+}
+
+/* Toned-down blink — gentle opacity pulse, no colour shift */
+.blink-danger-pill {
+  animation: softPulse 2.4s infinite ease-in-out;
+}
+
+@keyframes softPulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.72;
+  }
+}
+
+/* -- Siren panel ----------------------------------------------------------- */
+.siren-group-card {
+  background: $bg-card;
+  border: 1px solid $border-soft;
+  border-radius: $radius-card;
+  box-shadow: $shadow-sm;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+/* Subtle separator between the sensor cards and the inline siren list —
+   one shared heading covers both, so this just gives a quiet visual break. */
+.sensor-siren-divider {
+  border: 0;
+  border-top: 1px dashed $border-mid;
+  opacity: 0.9;
+}
+
+.siren-group-card-inline {
+  background: $bg-page;
+  border: 1px solid $border-soft;
+  border-radius: 10px;
+  padding: 10px 12px;
+
+  .siren-group-title {
+    font-size: 12px;
+    margin-bottom: 8px !important;
+  }
+}
+
+.siren-group-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: $text-strong;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.01em;
+
+  .title-accent {
+    width: 3px;
+    height: 16px;
+    background: $accent;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  .zone-highlight {
+    color: $accent;
+    margin-left: 6px;
+    font-weight: 700;
+  }
+}
+
+.siren-node-card {
+  position: relative;
+  background: $bg-card;
+  border-radius: 10px;
+  padding: 8px 10px;
+  border: 1px solid $border-soft;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  border-left: 3px solid $status-idle;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+    border-color: $border-mid;
+  }
+
+  &.node-live {
+    border-left-color: $status-ok;
+  }
+
+  &.node-offline {
+    border-left-color: $status-danger;
+  }
+
+  // Online / Offline pill — floated to the top-right corner of the card.
+  .siren-meta-status .badge {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 8px;
+    padding: 2px 7px !important;
+    letter-spacing: 0.06em;
+    z-index: 2;
+  }
+
+  // Reserve space so a long name doesn't run under the floating pill.
+  .siren-node-name {
+    padding-right: 60px;
+  }
+}
+
+.siren-bell-box {
+  width: 44px;
+  height: 44px;
+  background: $status-idle-bg;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid $border-soft;
+  flex-shrink: 0;
+}
+
+.siren-node-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-strong;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.siren-meta-status {
+  font-size: 10px;
+  font-weight: 600;
+
+  // Apply the same subtle pill style as sensor badges
+  .badge {
+    padding: 3px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    &.bg-success {
+      background: $status-ok-bg !important;
+      color: $status-ok !important;
+      border: 1px solid rgba(5, 150, 105, 0.18);
+    }
+
+    &.bg-danger {
+      background: $status-danger-bg !important;
+      color: $status-danger !important;
+      border: 1px solid rgba(220, 38, 38, 0.18);
+    }
+  }
+}
+
+.last-seen-text {
+  font-size: 10px;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+/* -- Animations (toned down) ---------------------------------------------- */
+.animate-spin-slow {
+  animation: spinSlow 14s infinite linear;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-pulse {
+  animation: pulseAlpha 3s infinite ease-in-out;
+}
+
+@keyframes pulseAlpha {
+
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-float {
+  animation: floatAnim 4s infinite ease-in-out;
+}
+
+@keyframes floatAnim {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-bounce-custom {
+  animation: bounceCustom 3.2s infinite ease-in-out;
+}
+
+@keyframes bounceCustom {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.animate-wobble-bell {
+  animation: wobbleBell 2.6s infinite ease-in-out;
+  transform-origin: 50% 0%;
+}
+
+@keyframes wobbleBell {
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(4deg);
+  }
+
+  50% {
+    transform: rotate(-4deg);
+  }
+
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+/* Force icon colours within the new monochrome theme.
+   Bootstrap's text-* utilities are kept on individual icons in markup, but
+   we re-map them so they don't paint the page red/yellow/orange. */
+.section-card-title .text-primary,
+.section-card-title .text-warning {
+  color: $accent !important;
+}
+
+.village-alert-box {
+  .text-danger {
+    color: $status-danger !important;
+  }
+
+  .text-warning {
+    color: $status-warn !important;
+  }
+
+  .text-secondary {
+    color: $text-faint !important;
+  }
+
+  .text-success {
+    color: $status-ok !important;
+  }
+}
+
+/* -- Responsive ------------------------------------------------------------ */
+@media (max-width: 991.98px) {
+  .controls-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .select-wrapper {
+    flex-grow: 1;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .counter-num {
+    font-size: 18px;
+  }
+
+  .counter-label {
+    font-size: 9px;
+  }
+
+  .section-card-title {
+    font-size: 15px;
+  }
+
+  .telemetry-section-title {
+    font-size: 15px;
+  }
+
+  .alert-counters-grid {
+    gap: 8px;
+  }
+}

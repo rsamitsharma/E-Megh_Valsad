@@ -1,0 +1,88 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">Daily Reading {{ !IsEdit ? "Entry" : "Update" }}</h1>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-12 mb-2" *ngIf="IsEdit">
+      <!-- <div class="--input-group">
+        <input InputField autocomplete="off" type="text" [(ngModel)]="DRID" [disabled]="true" />
+        <label Asterisk>Daily readingID</label>
+      </div> -->
+    </div>
+
+    <div Class=" col-12 mb-2">
+      <input-select inputLabel="Select Location" placeholder="---Select Location---" [(selectedValue)]="ReadingLocationID" [isRequired]="true" [isSearch]="false" [masterList]="ReadingLocationList"> </input-select>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="date" [(ngModel)]="EDate" onkeydown="return false" [max]="currentdate" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Date</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="time" [(ngModel)]="ETime" onkeydown="return false" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Time</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="WaterLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Water Level</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="DangerWaterLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Danger Water Level(ft)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="MinWaterLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Min Water Level(ft)</label>
+      </div>
+    </div>
+
+    <div class="col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" type="number" [(ngModel)]="MaxWaterLevel" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+        <label Asterisk>Max Water Level(ft)</label>
+      </div>
+    </div>
+
+    <!-- <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="text" [(ngModel)]="Trend" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>Trend</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="text" [(ngModel)]="ReadBy" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>ReadBy</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <textarea InputField autocomplete="off" type="text" [(ngModel)]="Remarks" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit"></textarea>
+          <label>Remarks</label>
+        </div>
+      </div> -->
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+    <ng-container *ngIf="_GlobalService.rightsControl.canEdit || !IsEdit">
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+    </ng-container>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,856 @@
+/* Marquee Container */
+.water-level-marquee-container {
+  width: 100%;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  overflow: hidden;
+  position: relative;
+  padding: 12px 0;
+  white-space: nowrap;
+}
+
+/* Marquee Wrapper - takes full width */
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  white-space: nowrap;
+}
+
+/* Marquee Content - will be animated */
+.marquee-content {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: marquee 20s linear infinite;
+  animation-play-state: running;
+  will-change: transform;
+  padding: 0 20px;
+}
+
+/* Marquee Item - contains the actual content */
+.marquee-item {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  padding: 0 15px;
+}
+
+/* Water Level Info Items */
+.water-level-info {
+  display: flex;
+  flex-direction: column;
+  padding: 0 25px;
+  position: relative;
+  min-width: 200px;
+  
+  &.border-start {
+    border-left: 1px solid #e0e0e0 !important;
+  }
+  
+  &.border-end {
+    border-right: 1px solid #e0e0e0 !important;
+  }
+  
+  .info-label {
+    font-size: 0.75rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    font-weight: 600;
+  }
+  
+  .info-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    display: flex;
+    align-items: center;
+    
+    i {
+      font-size: 1rem;
+      opacity: 0.8;
+    }
+    
+    &.text-info {
+      color: #0dcaf0;
+    }
+    
+    &.text-success {
+      color: #198754;
+    }
+  }
+  
+  &:hover {
+    .info-label {
+      color: #495057;
+    }
+    
+    .info-value {
+      color: #212529;
+      
+      i {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/* Animation for the marquee */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Ensure all flex items stay in one line */
+.d-flex {
+  white-space: nowrap;
+  flex-wrap: nowrap;
+}
+
+/* Adjust spacing for better alignment */
+.marquee-item .d-flex > * {
+  margin: 0 10px;
+}
+
+/* Add some spacing between icon and text */
+.marquee-item i {
+  margin-right: 5px;
+}
+
+/* Ensure text doesn't wrap */
+.small, .fw-bold {
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* Add some padding to the container */
+.marquee-wrapper {
+  padding: 10px 0;
+}
+
+/* Pause on hover */
+.marquee-wrapper:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Add gradient fades on the sides */
+.water-level-marquee-container::before,
+.water-level-marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.water-level-marquee-container::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(248, 249, 250, 1) 0%, rgba(248, 249, 250, 0) 100%);
+}
+
+.water-level-marquee-container::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(248, 249, 250, 1) 0%, rgba(248, 249, 250, 0) 100%);
+}
+
+/* Ensure proper spacing and alignment */
+.marquee-item .d-flex {
+  padding: 0 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .marquee-item {
+    padding: 0 20px 0 0;
+  }
+  
+  .marquee-item .d-flex {
+    padding: 0 10px;
+  }
+  
+  .marquee-item .px-4 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  .marquee-item .mx-2 {
+    margin-left: 0.5rem !important;
+    margin-right: 0.5rem !important;
+  }
+}
+
+/* Add a subtle gradient fade on the sides */
+.water-level-marquee::before,
+.water-level-marquee::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.water-level-marquee::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(248, 249, 250, 1) 0%, rgba(248, 249, 250, 0) 100%);
+}
+
+.water-level-marquee::after {
+  right: 0;
+  background: linear-gradient(270deg, rgba(248, 249, 250, 1) 0%, rgba(248, 249, 250, 0) 100%);
+}
+
+/* Smooth scrolling animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause on hover */
+.marquee-container:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+/* Ensure smooth rendering */
+.marquee-container,
+.marquee-content,
+.marquee-item {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .marquee-content {
+    animation-duration: 45s;
+  }
+  
+  .marquee-item {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .marquee-content {
+    animation-duration: 60s;
+  }
+  
+  .marquee-item {
+    padding: 0 10px;
+  }
+}
+
+/* Card styles */
+.card {
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 0.5rem 1rem;
+}
+
+.card-body {
+  padding: 0.75rem;
+}
+
+.fullscreen-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.siren {
+    border-radius: 10px;
+    margin: 0px;
+    padding: 10px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    width: 100%;
+    background-color: #dde6eb;
+  }
+  
+  @media (max-width: 576px) {
+    .siren {
+      flex-direction: column !important;
+      text-align: center;
+      align-items: center;
+      margin-bottom: 0px;
+    }
+  }
+  
+  .addresscontent {
+    font-size: 16px;
+    line-height: 1.3;
+  }
+  
+  .address {
+    background: #dde6eb;
+    width: 100%;
+  }
+  
+  td {
+    border: 1px solid #cccccc;
+  }
+  
+  /* Chart container styles */
+  .chart-container {
+    width: 100%;
+    height: 400px;
+    min-height: 300px;
+    position: relative;
+    
+    google-chart {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+    
+    /* Desktop styles */
+    @media (min-width: 992px) {
+      -webkit-overflow-scrolling: touch;
+      
+      google-chart {
+        min-width: 800px; /* Only apply min-width on desktop */
+      }
+    }
+  }
+  
+  @media only screen and (max-width: 992px) {
+    .chart-container {
+      height: 350px;
+    }
+  }
+  
+  @media only screen and (max-width: 768px) {
+    .chart-container {
+      height: 300px;
+    }
+  }
+  
+  @media only screen and (max-width: 576px) {
+    .chart-container {
+      height: 250px;
+    }
+  }
+  
+  .mat-dialog-map {
+    z-index: 500 !important;
+  }
+  .meters-wrapper {
+    background: #dde6eb;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  /* Text Data (on the left) */
+  .meters {
+    flex: 1;
+    padding-right: 10px;
+  }
+  
+  /* Wrapper for Water Box & Sensor */
+  .water-box-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Water Box */
+  .water-box {
+    width: 60px;
+    height: 60px;
+    // border: 1px solid #90caf9;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #e3f2fd;
+    position: relative;
+  }
+  
+  /* Water Fill */
+  .water-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    transition: height 1s ease-in-out;
+    z-index: 1;
+  }
+  
+  /* Sensor Image - Placed Outside & Above */
+  .sensor-image {
+    width: 24px;
+    height: auto;
+    position: absolute;
+    bottom: 100%; /* This pushes it completely above the water-box */
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  /* Optional Water Colors */
+  
+  .water-low {
+    background: linear-gradient(to top, #caf0f8, #0077b6); /* Light blue shades */
+  }
+  
+  .water-medium {
+    background: linear-gradient(to top, #caf0f8, #0077b6); /* Medium blue shades */
+  }
+  
+  .water-high {
+    background: linear-gradient(to top, #caf0f8, #0077b6, #023e8a); /* Dark blue shades */
+  }
+  
+  .progress-bar {
+    transition: width 0.4s ease-in-out;
+  }
+  
+  .custom-table {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .custom-table td {
+    padding: 15px;
+  }
+  
+  .custom-header h4 {
+    color: #007bff;
+    // font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0;
+  }
+  
+  .custom-header h4:hover {
+    color: #0056b3;
+    transform: scale(1.05);
+  }
+  
+  .custom-alert h5 {
+    font-size: 16px;
+    margin: 5px 0;
+    font-weight: 500;
+  }
+  
+  .clickable {
+    // text-decoration: underline;
+    cursor: pointer;
+  }
+  .alert-box {
+    background: #dde6eb;
+    border: 1px solid #dee2e6;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    // font-family: "Open Sans", serif;
+  }
+  
+  .alert-box h4 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+    cursor: pointer;
+    text-align: center;
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .alert-box h5 {
+    font-size: 16px;
+    margin: 8px 0;
+    color: #555;
+    text-align: center;
+  }
+  
+  .alert-red {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  
+  .alert-yellow {
+    color: #ffc107;
+    font-weight: bold;
+  }
+  
+  .alert-white {
+    color: white;
+    font-weight: bold;
+  }
+  
+  /* Each village list box */
+  .village-box {
+    flex: 1;
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    
+    h5 {
+      .alert-emoji {
+        display: inline-block;
+      }
+      
+      .alert-text {
+        display: inline-block;
+      }
+      
+      .mobile-text {
+        display: none;
+      }
+      
+      @media (max-width: 768px) {
+        .alert-text {
+          display: none;
+        }
+        
+        .mobile-text {
+          display: inline-block;
+          margin-left: 4px;
+        }
+        
+        .alert-emoji {
+          font-size: 1.5em;
+          vertical-align: middle;
+        }
+      }
+    }
+    max-height: 180px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .village-box h5 {
+    background: #e9ecef;
+    margin: 0;
+    padding: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .village-box ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+  }
+  
+  .village-box {
+    &.red-alert li {
+      position: relative;
+      padding-left: 24px;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        background-color: #dc3545;
+        border-radius: 50%;
+      }
+    }
+    
+    &.yellow-alert li {
+      position: relative;
+      padding-left: 24px;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        background-color: #ffc107;
+        border-radius: 50%;
+      }
+    }
+    
+    &.white-alert li {
+      position: relative;
+      padding-left: 24px;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 8px;
+        height: 8px;
+        background-color: #6c757d;
+        border-radius: 50%;
+      }
+    }
+  }
+  
+  .village-box li {
+    padding: 8px 8px 8px 32px;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+    color: #444;
+    background: #fff;
+    position: relative;
+    
+    @media (max-width: 768px) {
+      padding: 6px 8px 6px 28px;
+      font-size: 12px;
+    }
+    transition: background 0.3s;
+  }
+  
+  .village-box li:hover {
+    background: #f1f1f1;
+  }
+  
+  .village-box ul::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .village-box ul::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 10px;
+  }
+  
+  .tdd {
+    background: #dde6eb;
+  }
+  
+  .google-visualization-tooltip {
+    background-color: red !important;
+    color: black !important;
+    font-weight: bold;
+    border: 1px solid #000;
+    padding: 5px;
+  }
+  
+  .percentage-text {
+    color: black; /* or color: black depending on your design */
+    font-weight: bold;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the text inside the box */
+    z-index: 2; /* Make sure it's above the water-fill */
+    width: 100%;
+  }
+  
+  .water-fill {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .percentage-text {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .weather-card {
+    background: linear-gradient(135deg, #caf0f8, #0077b6, #0077b6);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+    color: white;
+    // font-family: "Poppins", Arial, sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #divWeatherMain {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 16px;
+    width: 100%;
+    // max-width: 250px;
+    height: auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    // font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    gap: 8px;
+    text-align: center;
+  }
+  
+  .weatherWidgetRow {
+    display: block;
+    width: 100%;
+  }
+  
+  .sun,
+  .moon {
+    font-size: 48px;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.8));
+    margin-bottom: 5px;
+  }
+  
+  .sun {
+    color: #ffdd57;
+  }
+  .moon {
+    color: #f0f0f0;
+  }
+  
+  .cloudDiv {
+    margin-top: -40px;
+  }
+  
+  .cloud {
+    color: rgb(176, 190, 197);
+    font-size: 36px;
+    animation: cloudFloat 10s infinite alternate ease-in-out;
+  }
+  
+  @keyframes cloudFloat {
+    from {
+      transform: translateX(-20px);
+    }
+    to {
+      transform: translateX(20px);
+    }
+  }
+  
+  .weatherTemp {
+    font-size: 36px;
+    font-weight: bold;
+    color: #fff;
+  }
+  
+  .weatherDetails {
+    font-size: 14px;
+    color: #e0e0e0;
+  }
+  
+  .cityName {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 8px;
+    color: #fff;
+  }
+  
+  .alert-container {
+    flex: 1;
+    min-width: 50%; /* Ensures equal width */
+  }
+  
+  .no-data {
+    text-align: center;
+    // font-family: var(--font-family-primary);
+  }
+  
+  .chart-container {
+    width: 100%;
+    // max-width: 800px;
+    height: auto;
+    margin: auto;
+  }
+  
+  google-chart {
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+  }
+  /* Container for progress bar */
+  .progress-container {
+    width: 100%;
+    max-width: 400px; /* Limits max width for better scaling */
+    margin: 10px auto; /* Center it properly */
+    text-align: center;
+  }
+  
+  /* Progress bar styling */
+  .progress {
+    height: 20px;
+    width: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+  }
+  
+  /* Selected days text */
+  .selected-days {
+    font-size: 18px;
+    text-align: center;
+    margin-top: 5px;
+    white-space: nowrap; /* Prevents line breaks */
+  }
+  
+  /* Tablet View */
+  @media (max-width: 768px) {
+    .progress-container {
+      max-width: 300px;
+    }
+  
+    .selected-days {
+      font-size: 16px;
+    }
+  }
+  
+  /* Mobile View */
+  @media (max-width: 480px) {
+    .progress-container {
+      max-width: 200px;
+    }
+  
+    .selected-days {
+      font-size: 14px;
+    }
+  }
+  .name-box {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 10px;
+  }
+  
+  .blink {
+    border: 2px solid red;
+    animation: blink-border 1s steps(2, start) infinite;
+    color: black;
+    // background-color: red;
+  }
+  
+  @keyframes blink-border {
+    to {
+      // border-color: transparent;
+      background-color: rgb(236, 101, 101);
+    }
+  }
+  

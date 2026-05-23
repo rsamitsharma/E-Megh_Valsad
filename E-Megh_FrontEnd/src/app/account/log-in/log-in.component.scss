@@ -1,0 +1,116 @@
+  .--login-container {
+    position: relative;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    height: auto;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .login-type-toggle {
+    margin: 20px 0 25px;
+    
+    .mat-checkbox {
+      font-family: inherit;
+      display: block;
+      width: 100%;
+      
+      .mat-checkbox-layout {
+        white-space: nowrap;
+        margin-left: 0;
+      }
+      
+      .mat-checkbox-inner-container {
+        margin-right: 8px;
+      }
+      
+      .mat-checkbox-label {
+        color: #666;
+        font-size: 14px;
+      }
+      
+      &.mat-checkbox-checked {
+        .mat-checkbox-label {
+          color: #175285;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  
+  .otp-section {
+    margin-top: 15px;
+    animation: fadeIn 0.3s ease-in-out;
+    
+    .--input-group {
+      margin-bottom: 10px;
+    }
+  }
+  
+  .otp-timer {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 13px;
+    
+    small {
+      color: #666;
+    }
+    
+    a {
+      color: #175285;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: darken(#175285, 10%);
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .logo-image {
+    margin: 0 auto 30px;
+    width: 180px;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* Media Queries */
+  @media screen and (max-width: 768px) {
+    .--login-container {
+      padding: 15px;
+      min-height: calc(100vh - 40px);
+    }
+
+    .logo-image {
+      width: 150px;
+      margin-bottom: 30px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .--login-container {
+      padding: 10px;
+    }
+
+    .logo-image {
+      width: 130px;
+      margin-bottom: 25px;
+    }
+
+    .--input-group {
+      margin-bottom: 15px;
+    }
+  }

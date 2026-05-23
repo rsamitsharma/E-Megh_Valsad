@@ -1,0 +1,215 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">User {{ !IsEdit ? "Entry" : "Update" }}</h1>
+
+<mat-stepper class="example-stepper" [orientation]="(stepperOrientation | async)!" linear #stepper>
+  <mat-step [completed]="enable" [editable]="enableedit">
+    <ng-template matStepLabel> Enter User Details </ng-template>
+    <div class="row" mat-dialog-content>
+      <div class="col-12 mb-2" *ngIf="IsEdit">
+        <!-- <div class="--input-group">
+          <input InputField Asterisk autocomplete="off" type="text" [(ngModel)]="UID" readonly />
+          <label Asterisk>RID</label>
+        </div> -->
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField Asterisk autocomplete="off" type="text" [(ngModel)]="UserID" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>User ID</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="text" [(ngModel)]="Password" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>Password</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="text" [(ngModel)]="FirstName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label>FirstName</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="text" [(ngModel)]="LastName" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label>LastName</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" type="text" [(ngModel)]="Email" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label>Email</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <div class="--input-group">
+          <input InputField autocomplete="off" min="0" type="number" [(ngModel)]="MobileNo" [disabled]="!_GlobalService.rightsControl.canEdit && IsEdit" />
+          <label Asterisk>Mobile No</label>
+        </div>
+      </div>
+
+      <div class="col-12 mb-2">
+        <input-select inputLabel="Select User Type" [(selectedValue)]="UserTypeID" [isRequired]="true" [isSearch]="false" [masterList]="UserList"> </input-select>
+      </div>
+
+      <!-- <div class="col-12 mb-2">
+        <input-select inputLabel="Select District" [(selectedValue)]="DistrictID" [isRequired]="true" [isSearch]="false" [masterList]="DistrictList"> </input-select>
+      </div> -->
+
+      <div class="col-12 mb-2">
+        <input-select [isChips]="true" inputLabel="Select Reading Location" [(selectedValue)]="ReadingLocationID" [isRequired]="true" [isSearch]="false" [masterList]="ReadingLocationList"> </input-select>
+      </div>
+
+      <div class="col-12 mb-2 mt-3">
+        <section class="form-group example-section">
+          <mat-checkbox [(ngModel)]="IsAdmin" class="example-margin">Authorized to Play Siren</mat-checkbox>
+        </section>
+      </div>
+
+      <div *ngIf="IsEdit" class="col-12 mb-2 mt-3">
+        <section class="form-group example-section">
+          <mat-checkbox [(ngModel)]="IsActive" class="example-margin">IsActive</mat-checkbox>
+        </section>
+      </div>
+    </div>
+    <div align="end" mat-dialog-actions>
+      <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="GoToNext()">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step [completed]="enable1" [editable]="enableedit1">
+    <ng-template matStepLabel> Select Menu Permission </ng-template>
+
+    <div mat-dialog-content>
+      <ng-container *ngIf="masterMenuList.length > 0">
+        <ng-container *ngFor="let item of masterMenuList">
+          <ng-container [ngTemplateOutlet]="MenuPermission" [ngTemplateOutletContext]="{ item: item }"> </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="mat-stepper-action" align="end" mat-dialog-actions>
+      <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+      <button type="button" matRipple class="--btn-outlined-red m-1" matStepperPrevious (click)="GoBack()">Back</button>
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="GoToFinal()">Next</button>
+    </div>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel> Select Role Permission </ng-template>
+    <div mat-dialog-content>
+      <div class="permission-checkboxes">
+        <div class="permission-item">
+          <mat-checkbox [(ngModel)]="CanAdd" (click)="onAdd(masterMenuUserPermissionList)">Can Add</mat-checkbox>
+        </div>
+        <div class="permission-item">
+          <mat-checkbox [(ngModel)]="CanEdit" (click)="onEdit(masterMenuUserPermissionList)">Can Edit</mat-checkbox>
+        </div>
+        <div class="permission-item">
+          <mat-checkbox [(ngModel)]="CanDelete" (click)="onDelete(masterMenuUserPermissionList)">Can Delete</mat-checkbox>
+        </div>
+        <div class="permission-item">
+          <mat-checkbox [(ngModel)]="CanView" (click)="onView(masterMenuUserPermissionList)">Can View</mat-checkbox>
+        </div>
+      </div>
+
+      <ng-container *ngIf="masterMenuUserPermissionList.length > 0">
+        <ng-container *ngFor="let item of masterMenuUserPermissionList">
+          <ng-container [ngTemplateOutlet]="UserPermission" [ngTemplateOutletContext]="{ item: item }"> </ng-container>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div align="end" mat-dialog-actions>
+      <button type="button" matRipple class="--btn-outlined-gray m-1" [mat-dialog-close]="false">Close</button>
+      <button type="button" matRipple class="--btn-outlined-red m-1" matStepperPrevious (click)="GoBackToPermission()">Back</button>
+      <button type="button" matRipple class="--btn-outlined-green m-1" (click)="OnSubmit()">Save</button>
+    </div>
+  </mat-step>
+</mat-stepper>
+
+<ng-template #MenuPermission let-NavItem="item">
+  <div class="w-100 d-flex align-items-center">
+    <div class="w-100 d-flex justify-content-between py-2 mt-2 px-3 --border-radius-5 --text-primary">
+      <div class="d-flex">
+        <section class="example-section">
+          <ng-container *ngIf="NavItem?.ChildList?.length === 0">
+            <span class="example-list-section">
+              <mat-checkbox class="example-margin" [checked]="NavItem.IsSelected" (change)="setChildMenu(NavItem)">
+                <b>{{ NavItem?.MenuName }}</b>
+              </mat-checkbox>
+            </span>
+          </ng-container>
+
+          <ng-container *ngIf="NavItem?.ChildList?.length > 0">
+            <span class="example-list-section">
+              <mat-checkbox [checked]="NavItem.IsSelected" (change)="setParentMenu(NavItem)">
+                <b>{{ NavItem?.MenuName }}</b>
+              </mat-checkbox>
+            </span>
+          </ng-container>
+        </section>
+      </div>
+      <ng-container *ngIf="NavItem?.ChildList?.length > 0">
+        <mat-icon style="cursor: pointer; float: right !important" [@indicatorRotate]="NavItem?.IsExpanded ? 'expanded' : 'collapsed'" (click)="onClickMenuItem(NavItem)"> expand_more </mat-icon>
+      </ng-container>
+    </div>
+  </div>
+  <ng-container *ngIf="NavItem?.ChildList?.length > 0">
+    <ng-container *ngIf="NavItem?.IsExpanded">
+      <ng-container *ngFor="let child of NavItem?.ChildList">
+        <div class="ms-3">
+          <ng-container [ngTemplateOutlet]="MenuPermission" [ngTemplateOutletContext]="{ item: child }"> </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #UserPermission let-Items="item">
+  <div class="w-100 d-flex align-items-center --text-primary">
+    <div>
+      <section class="example-section">
+        <ng-container *ngIf="Items?.ChildList?.length === 0">
+          <span *ngIf="Items?.IsSelected">
+            <b>{{ Items?.MenuName }}</b>
+          </span>
+        </ng-container>
+
+        <ng-container>
+          <div class="d-flex" *ngIf="Items?.ChildList?.length > 0">
+            <span *ngIf="Items?.IsSelected">
+              <b>{{ Items?.MenuName }}</b>
+            </span>
+          </div>
+        </ng-container>
+      </section>
+    </div>
+  </div>
+  <ng-container *ngIf="Items?.ChildList?.length > 0">
+    <ng-container *ngFor="let child of Items?.ChildList">
+      <div class="ms-3 d-flex --border-light-gray" *ngIf="child.IsSelected">
+        <ng-container [ngTemplateOutlet]="UserPermission" [ngTemplateOutletContext]="{ item: child }"> </ng-container>
+        <ng-container>
+          <mat-checkbox class="me-3" [(ngModel)]="child.canAdd">
+            <b>Can Add</b>
+          </mat-checkbox>
+          <mat-checkbox class="me-3" [(ngModel)]="child.canEdit">
+            <b>Can Edit</b>
+          </mat-checkbox>
+          <mat-checkbox class="me-3" [(ngModel)]="child.canDelete">
+            <b>Can Delete</b>
+          </mat-checkbox>
+          <mat-checkbox class="me-3" [(ngModel)]="child.canView">
+            <b>Can View</b>
+          </mat-checkbox>
+        </ng-container>
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>

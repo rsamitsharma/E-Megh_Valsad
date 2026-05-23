@@ -1,0 +1,8 @@
+<h6 mat-dialog-title class="--heading-josefin --text-primary">{{ title }}</h6>
+<div mat-dialog-content>
+  <p class="--text-gray" *ngIf="message">{{ message }}</p>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="--btn-outlined-red mx-2" tabindex="-1" [mat-dialog-close]="false">{{ cancelButton }}</button>
+  <button class="--btn-filled-primary" [mat-dialog-close]="true" cdkFocusInitial>{{ okButton }}</button>
+</div>

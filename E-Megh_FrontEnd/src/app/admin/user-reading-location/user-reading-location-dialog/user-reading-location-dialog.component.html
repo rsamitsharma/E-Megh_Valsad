@@ -1,0 +1,90 @@
+<h1 mat-dialog-title class="--primary-heading --mat-dialog">User Reading Location {{ !IsEdit ? "Entry" : "Update" }}</h1>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-lg-6 col-md-6 col-12 mb-2" *ngIf="IsEdit">
+      <div class="--input-group">
+        <input InputField Asterisk autocomplete="off" type="text" [(ngModel)]="ReadingLocationID" />
+        <label Asterisk>Reading LocationID</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <input-select inputLabel="Select Gateway Master" placeholder="---Select Gateway Master---" [(selectedValue)]="GatewayMasterID" [isRequired]="true" [isSearch]="false" [masterList]="GatewayMasterList"> </input-select>
+    </div>
+
+    <!-- <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="GatewayIMEI" />
+        <label Asterisk>GatewayIMEI</label>
+      </div>
+    </div> -->
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="Resistance" />
+        <label Asterisk>Resistance</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="MilliAmpsMin" />
+        <label Asterisk>MilliAmpsMin</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="MilliAmpsMax" />
+        <label Asterisk>MilliAmpsMax</label>
+      </div>
+    </div>
+
+    <!-- <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="VoltagePerMeter" />
+        <label Asterisk>VoltagePerMeter</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="text" [(ngModel)]="ActualVoltagePerMeter" />
+        <label Asterisk>ActualVoltagePerMeter</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="text" [(ngModel)]="ZeroLevelVotage" />
+        <label Asterisk>ZeroLevelVotage</label>
+      </div>
+    </div> -->
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="AdjustMeter" />
+        <label Asterisk>AdjustMeter</label>
+      </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-12 mb-2">
+      <div class="--input-group">
+        <input InputField autocomplete="off" min="0" type="number" OnlyNumber [(ngModel)]="DataRefreshMin" />
+        <label Asterisk>DataRefreshMin</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-dialog-actions align="end" [ngClass]="{ 'd-flex justify-content-between': IsEdit }">
+  <div *ngIf="IsEdit">
+    <section class="form-group example-section">
+      <mat-checkbox name="IsActive" [(ngModel)]="IsActive" class="example-margin">IsActive </mat-checkbox>
+    </section>
+  </div>
+  <div>
+    <button type="button" matRipple class="--btn-outlined-gray m-1" mat-dialog-close #CloseDialog>Close</button>
+    <button type="button" matRipple class="--btn-outlined-green m-1" (click)="Submit()">{{ !IsEdit ? "Submit" : "Update" }}</button>
+  </div>
+</mat-dialog-actions>

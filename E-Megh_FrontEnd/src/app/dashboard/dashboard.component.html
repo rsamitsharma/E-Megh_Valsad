@@ -1,0 +1,117 @@
+<div class="row m-0 p-0">
+  <!-- <div class="col-12 m-4">
+    <h3 class="--heading-josefin"><b>Welcome to Disaster Management System</b></h3>
+  </div> -->
+  <!-- <hr /> -->
+  <div class="col-12 ps-5 pe-5 --bg-white" id="full-screen-container"
+    [style.overflow]="IsFullScreen ? 'scroll' : 'auto'">
+    <div class="row align-items-center">
+      <div class="col-lg-12 col-12 mb-2" align="end">
+        <mat-icon matTooltip="FullScreen" matTooltipClass="matTooltip" class="--text-primary mx-2"
+          (click)="onFullView()">{{ IsFullScreen ? "fullscreen_exit" : "fullscreen" }}</mat-icon>
+      </div>
+
+      <div class="col-12">
+        <h3 style="font-family: 'Lexend Deca', sans-serif">Sensor Status :</h3>
+
+        <div class="row align-items-center h-100" style="font-family: 'Lexend Deca', sans-serif">
+          <ng-container *ngFor="let item of SensorStatus; let i = index">
+            <div class="col-lg-4 col-md-12 col-12 mb-3 align-items-stretch">
+              <div class="meters-wrapper card-style d-flex justify-content-between align-items-center"
+                [class.is-live]="item.IsLive">
+                <div class="meters">
+                  <h4>
+                    <b class="name-box">
+                      {{ item.Name }}
+                    </b>
+                  </h4>
+                  <h5 style="font-family: 'Lexend Deca', sans-serif" *ngIf="item.SType === 'Gateway' && !item.IsLive">
+                    <b [ngClass]="{ blinks: true }" class="name-boxRemark">
+                      {{ item.Remarks ? item.Remarks : "-" }}
+                    </b>
+                  </h5>
+
+                  <h5><b>Date & Time:</b> {{ item.EDateTime ? item.EDateTime : "-" }}</h5>
+                  <h5>
+                    <!-- <b>Current (mA):</b> <span>{{ item.Reading_mA ? item.Reading_mA : "-" }}</span> -->
+                  </h5>
+                  <h5>
+                    <b>{{ item.SType === "Reservoir" ? "Height" : "Level" }}: </b>
+                    <b>
+                      <span style="font-size: 18px">
+                        <ng-container *ngIf="item.SType === 'Reservoir'; else showLevel">
+                          <span style="color: rgb(0, 0, 0)"> {{ item.READ_MTR ?? 0 }} / {{ item.MaxWaterLevel ?? 1 }}
+                            mtr </span>
+                          <br />
+                          <h5><b>InOut:</b> {{ item.Reading ?? 0 }} / {{ item.Reading_mA ?? 0 }}</h5>
+                        </ng-container>
+                        <ng-template #showLevel>
+                          {{ item.READ_FT ?? 0 }} ft (<span style="color: blue">{{ item.READ_MTR ?? 0 }} mtr</span>)
+                        </ng-template>
+                      </span>
+                    </b>
+                  </h5>
+                </div>
+
+                <!-- Water Fill Box (Small Square on Right Side) -->
+                <div class="water-box-wrapper position-relative">
+                  <ng-container *ngIf="item.SType === 'Gateway'">
+                    <img style="margin-left: 17px"
+                      [src]="item.IsLive ? './assets/Sensor_Live-.png' : './assets/Sensor_Disconnect-.png'" alt="alarm"
+                      height="30" width="30" />
+                  </ng-container>
+
+                  <div class="water-box mt-2">
+                    <div class="water-fill"
+                      [ngClass]="getWaterClass(item.SType === 'Reservoir' ? item.percentageforreservoir : item.percentage)"
+                      [ngStyle]="{ height: getWaterLevel(item.SType === 'Reservoir' ? item.percentageforreservoir : item.percentage) }">
+                    </div>
+                    <div class="percentage-text text-center mt-2">
+                      <b>{{ item.SType === "Reservoir" ? item.percentageforreservoir.toFixed(2) :
+                        item.percentage.toFixed(2) === "100.00" ? 99.5 : item.percentage.toFixed(2) }}%</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12" *ngIf="i < SensorStatus.length - 1 && item.STypeID !== SensorStatus[i + 1].STypeID">
+              <hr class="separator" />
+              <h3>Reservoir Status :</h3>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <hr />
+
+      <div class="col-12" style="font-family: 'Lexend Deca', sans-serif">
+        <div *ngFor="let group of groupedSirenLocations">
+          <h3>Siren Location : {{ group.LocationName }}</h3>
+          <div class="row gx-3 gy-3 mb-3 p-3">
+            <div class="col-xl-3 col-md-4 col-12 mb-2 d-flex align-items-stretch" *ngFor="let item of group.Sirens">
+              <div class="siren row" [ngClass]="item.IsLive ? 'live' : 'offline'">
+                <div class="col-xl-3 col-12 text-center">
+                  <img [src]="item.IsLive ? './assets/gSiren.png' : './assets/RedBell.png'" alt="alarm" height="50"
+                    width="50" />
+                </div>
+                <div class="col-lg-9 col-12">
+                  <div class="address">
+                    <h5 class="mb-1 addresscontent">
+                      <span>
+                        <b></b> <span>{{ item.SirenLocationName }}</span>
+                      </span>
+                      <br />
+                      <span *ngIf="!item.IsLive">
+                        <b>Last Seen: </b> <span>{{ item.EDateTime || "-" }}</span>
+                      </span>
+                    </h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

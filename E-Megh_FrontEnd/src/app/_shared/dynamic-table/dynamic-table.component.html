@@ -1,0 +1,16 @@
+<table class="table">
+  <thead class="table-light">
+    <tr>
+      <th scope="col" [class]="header.className" *ngFor="let header of headerList">{{ header.headingName }}</th>
+      <ng-container *ngIf="headerTemplateRef" [ngTemplateOutlet]="headerTemplateRef"> </ng-container>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    <tr *ngFor="let row of masterList">
+      <td [class]="header.className" *ngFor="let header of headerList">
+        <dynamic-mat-columns [row]="row" [item]="header"></dynamic-mat-columns>
+      </td>
+      <ng-container *ngIf="bodyTemplateRef" [ngTemplateOutlet]="bodyTemplateRef" [ngTemplateOutletContext]="{ $implicit: row }"> </ng-container>
+    </tr>
+  </tbody>
+</table>
