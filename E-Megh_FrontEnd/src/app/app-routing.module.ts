@@ -16,7 +16,7 @@ const routes: Routes = [
   { path: "dashboard", component: DashboardComponent, canActivate: [AuthGuard] },
   { path: "graphdashboard", component: GraphdashboardComponent, canActivate: [AuthGuard] },
   { path: "unified-dashboard", component: UnifiedDashboardComponent, canActivate: [AuthGuard] },
-  { path: "master", loadChildren: () => import("./Master/master.module").then(m => m.MasterModule), canActivate: [AuthGuard] },
+  { path: "master", loadChildren: () => import("./master/master.module").then(m => m.MasterModule), canActivate: [AuthGuard] },
   { path: "admin", loadChildren: () => import("./admin/admin.module").then(m => m.AdminModule), canActivate: [AuthGuard] },
   { path: "transaction", loadChildren: () => import("./transaction/transaction.module").then(m => m.TransactionModule), canActivate: [AuthGuard] },
   { path: "report", loadChildren: () => import("./report/report.module").then(m => m.ReportModule), canActivate: [AuthGuard] },
