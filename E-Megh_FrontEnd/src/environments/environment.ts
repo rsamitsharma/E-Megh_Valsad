@@ -9,7 +9,7 @@ export const environment = {
   //url: "https://responscity.com/EWSDEMOApi/",
   // url: "https://responscity.com/EWSDGApi", 
   // url: "http://192.168.27.3:5000", //dev
-  url: "http://localhost:5000", //dev
+  url: "http://localhost:4000", //dev
   // url: "http://100.100.100.1:3000",
   //mapKey: 'AIzaSyBPPFR9HkxOfhzqCWfyUjmTC4GDsQ-9A2A',
   // GOOGLE_MAP_KEY: "AIzaSyBPPFR9HkxOfhzqCWfyUjmTC4GDsQ-9A2A",  //dev-chetan

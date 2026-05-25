@@ -3,17 +3,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const sqlConfig = {
-  // user: 'rs_development',
-  user: 'rsuser',
-  password: 'P8L5fE123456_',
-  database: 'Valsad_Disaster_Mgt',
-  // database: 'Daman_Disaster_Mgt',
-  // user: process.
-  server: '100.100.100.1',
-  //server: "202.47.117.214",
-  // server: '202.71.24.172',
-  //  server: '202.71.24.172',
-  // server: '192.168.27.3',
+  user: process.env.DB_USER as string,
+  password: process.env.DB_PASSWORD as string,
+  database: process.env.DB_NAME as string,
+  server: process.env.DB_SERVER as string,
   pool: {
     max: 100,
     min: 0,
