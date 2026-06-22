@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  //Get
+  //Get apis
   GetContactMaster,
   GetDangerCategoryMaster,
   GetDistrictMaster,
